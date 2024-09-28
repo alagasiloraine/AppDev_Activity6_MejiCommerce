@@ -1,34 +1,31 @@
 const mejicoController = {
-  index: (req, res) => {
-      res.render('index');
-  },
-  productListing: (req, res) => {
-      res.render('productListing');
-  },
-  productDetails: (req, res) => {
-      res.render('productDetails');
-  },
-  shoppingCart: (req, res) => {
-      res.render('shoppingCart');
-  },
-  checkOut: (req, res) => {
-      res.render('checkOut');
-  },
-  userAccount: (req, res) => {
-      res.render('userAccount');
-  },
-  orderHistory: (req, res) => {
-      res.render('orderHistory');
-  },
-  aboutUs: (req, res) => {
-    res.render('aboutUs');
-  },
-  contactUs: (req, res) => {
-      res.render('contactUs');
-  },
-  blog: (req, res) => {
-    res.render('blog');
-  }
+    index: (req, res) => {
+        res.render('home');
+    },
+    about: (req, res) => {
+        res.render('about');
+    },
+    contact: (req, res) => {
+        res.render('contact');
+    },
+    testimonial: (req, res) => {
+        res.render('testimonial');
+    },
+    feature: (req, res) => {
+        res.render('feature');
+    },
+    product: (req, res) => {
+        res.render('product');
+    },
+    howtouse: (req, res) => {
+        res.render('howtouse');
+    },
+    blog: (req, res) => {
+        res.render('blog');
+    },
+    notFound: (req, res) => {
+        res.render('notFound');
+    }
 };
 
 module.exports = mejicoController;

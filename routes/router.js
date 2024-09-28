@@ -1,17 +1,15 @@
 const express = require('express');
-
 const router = express.Router();
-const mejicoController = require("../Controller/mejicoController");
+const mejicoController = require('../Controller/mejicoController.js');
 
-router.get('/', mejicoController.index);
-router.get('/productListing', mejicoController.productListing);
-router.get('/productDetails', mejicoController.productDetails);
-router.get('/shoppingCart', mejicoController.shoppingCart);
-router.get('/checkOut', mejicoController.checkOut);
-router.get('/userAccount', mejicoController.userAccount);
-router.get('/orderHistory', mejicoController.orderHistory);
-router.get('/aboutUs', mejicoController.aboutUs);
-router.get('/contactUs', mejicoController.contactUs);
-router.get('/blog', mejicoController.blog);
+router.get('/', mejicoController.home);
+router.get('/about', mejicoController.about);
+router.get('/contact', mejicoController.contact);
+router.get('/testimonial', mejicoController.testimonial); // Keep only one
+router.get('/feature', mejicoController.feature); // Move feature to its own route
+router.get('/product', mejicoController.product); // Move product to its own route
+router.get('/howtouse', mejicoController.howtouse); // Move howtouse to its own route
+router.get('/blog', mejicoController.blog); // Move blog to its own route
+router.get('/notFound', mejicoController.notFound); // Move home to its own route
 
 module.exports = router;
