@@ -1,5 +1,5 @@
 const mejicoController = {
-    index: (req, res) => {
+    home: (req, res) => {
         res.render('home');
     },
     about: (req, res) => {
