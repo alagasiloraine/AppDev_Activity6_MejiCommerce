@@ -23,6 +23,15 @@ const mejicoController = {
     blog: (req, res) => {
         res.render('blog');
     },
+    blog1: (req, res) => {
+        res.render('blog1');
+    },
+    blog2: (req, res) => {
+        res.render('blog2');
+    },
+    blog3: (req, res) => {
+        res.render('blog3');
+    },
     notFound: (req, res) => {
         res.render('notFound');
     }

@@ -1,17 +1,6 @@
 /********** Template CSS **********/
 /*** Spinner ***/
-#spinner {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
-    z-index: 99999;
-}
 
-#spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
-    visibility: visible;
-    opacity: 1;
-}
 
 .back-to-top {
     position: fixed;
@@ -20,6 +9,8 @@
     bottom: 45px;
     z-index: 99;
 }
+
+
 
 img.animated.pulse {
     animation-duration: 5s;
