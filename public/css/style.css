@@ -1,18 +1,3 @@
-/********** Template CSS **********/
-/*** Spinner ***/
-#spinner {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .5s ease-out, visibility 0s linear .5s;
-    z-index: 99999;
-}
-
-#spinner.show {
-    transition: opacity .5s ease-out, visibility 0s linear 0s;
-    visibility: visible;
-    opacity: 1;
-}
-
 .back-to-top {
     position: fixed;
     display: none;
@@ -127,14 +112,16 @@ img.animated.pulse {
     }
 }
 
-
 /*** Hero Header ***/
 .hero-header {
     position: relative;
     margin-top: -85px;
     padding-top: 12rem;
     padding-bottom: 6rem;
-    background: url(../img/bg.png) center center no-repeat;
+
+    background: linear-gradient(to right, #7ea3636a 50%, #7ea3636a 50%), 
+                url('/img/bg.png') center center no-repeat;
+
     background-size: cover;
 }
 
@@ -145,7 +132,7 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: #7da65f4d;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
@@ -167,13 +154,13 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: #7da65f4d;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
 .feature-item .border {
     position: relative;
-    border-color: rgba(255, 255, 255, .2) !important;
+    background: #7da65f4d;
     z-index: 1;
 }
 
@@ -192,7 +179,7 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: #7da65f4d;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
@@ -224,7 +211,7 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: #7da65f4d;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
@@ -238,7 +225,6 @@ img.animated.pulse {
 }
 
 
-/*** Product ***/
 .product-item {
     transition: .1s;
 }
@@ -268,7 +254,7 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: #7da65f4d;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
@@ -336,7 +322,8 @@ img.animated.pulse {
     height: 100%;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, .1);
+    background: linear-gradient(to right, #7ea3636a 50%, #7ea3636a 50%), 
+    url('/img/bg.png') center center no-repeat;
     clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
 }
 
@@ -345,35 +332,6 @@ img.animated.pulse {
     border-color: rgba(255, 255, 255, .2) !important;
     z-index: 1;
 }
-
-
-/*** Newsletter ***/
-.newsletter {
-    position: relative;
-    background: url(../img/bg.png) center center no-repeat;
-    background-size: cover;
-}
-
-.newsletter::before {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, .1);
-    clip-path: polygon(66% 0, 100% 0, 100% 100%, 33% 100%);
-}
-
-.newsletter .container {
-    position: relative;
-    z-index: 1;
-}
-
-.newsletter .form-control {
-    background: rgba(255, 255, 255, .3);
-}
-
 
 /*** Footer ***/
 .footer .btn.btn-link {
