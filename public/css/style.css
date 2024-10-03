@@ -244,8 +244,6 @@ img.animated.pulse {
     background: var(--bs-primary);
 }
 
-
-/*** Testimonial ***/
 .testimonial {
     position: relative;
     background: url(../img/bg.png) center center no-repeat;
@@ -302,8 +300,6 @@ img.animated.pulse {
     background: var(--bs-dark);
 }
 
-
-/*** Blog ***/
 .blog-item {
     transition: .1s;
 }
@@ -318,8 +314,6 @@ img.animated.pulse {
     background: var(--bs-primary);
 }
 
-
-/*** Contact ***/
 .contact-info-item::before {
     position: absolute;
     content: "";
@@ -337,8 +331,6 @@ img.animated.pulse {
     z-index: 1;
 }
 
-
-/*** Newsletter ***/
 .newsletter {
     position: relative;
     background: url(../img/bg.png) center center no-repeat;
@@ -365,8 +357,6 @@ img.animated.pulse {
     background: rgba(255, 255, 255, .3);
 }
 
-
-/*** Footer ***/
 .footer .btn.btn-link {
     display: block;
     margin-bottom: 10px;

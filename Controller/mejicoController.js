@@ -34,6 +34,12 @@ const mejicoController = {
     },
     notFound: (req, res) => {
         res.render('notFound');
+    },
+    admin: (req, res) => {
+        res.render('admin/admin');
+    },
+    order: (req, res) => {
+        res.render('admin/order');
     }
 };
 

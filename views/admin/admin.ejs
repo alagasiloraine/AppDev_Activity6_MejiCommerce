@@ -1,190 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fafcf9;
-    color: #2a3a13;
-}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="css/adminstyle.css">
+    </head>
+    <body>
+        <div class="dashboard">
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#"><i class="fas fa-tachometer-alt"></i></a></li>
+                    <li><a href="order"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li><a href="#"><i class="fas fa-users"></i></a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i></a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
+            </div>
 
-.dashboard {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="header">
+                    <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                </div>
 
-header {
-    background-color: #91bd78;
-    color: #fafcf9;
-    padding: 20px;
-    text-align: center;
-}
+                <!-- Cards Section -->
+                <div class="cards">
+                    <div class="card">
+                        <h3><i class="fas fa-users"></i> Total Users</h3>
+                        <p>1,250</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-chart-line"></i> Total Sales</h3>
+                        <p>$45,000</p>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-box-open"></i> Total Orders</h3>
+                        <p>320</p>
+                    </div>
+                </div>
 
-h1 {
-    margin: 0;
-}
+                <div class="chart-section">
+                    <div class="chart-row">
+                        <div class="chart-container">
+                            <h2>Line Chart</h2>
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h2>Bar Chart</h2>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
 
-main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.widget {
-    background-color: #c9ddbd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    color: #2a3a13;
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-canvas {
-    max-width: 100%;
-    height: auto;
-}
-
-#checkoutStats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.stat-item {
-    background-color: #9cc388;
-    border-radius: 4px;
-    padding: 10px;
-    text-align: center;
-}
-
-.stat-value {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.stat-label {
-    font-size: 14px;
-}
-</style>
-<body>
-    <div class="dashboard">
-        <header>
-            <h1>E-commerce Admin Dashboard</h1>
-        </header>
-        <main>
-            <section class="widget" id="most-purchased">
-                <h2>Most Purchased Products</h2>
-                <canvas id="purchaseChart"></canvas>
-            </section>
-            <section class="widget" id="most-reviewed">
-                <h2>Most Reviewed Products</h2>
-                <canvas id="reviewChart"></canvas>
-            </section>
-            <section class="widget" id="product-status">
-                <h2>Product Status</h2>
-                <canvas id="statusChart"></canvas>
-            </section>
-            <section class="widget" id="checkout-stats">
-                <h2>Checkout Statistics</h2>
-                <div id="checkoutStats"></div>
-            </section>
-        </main>
+            <!-- Table Section -->
+    <div class="table-section">
+        <h2><i class="fas fa-table"></i> Recent Orders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th><i class="fas fa-hashtag"></i> Order ID</th>
+                    <th><i class="fas fa-user"></i> Customer</th>
+                    <th><i class="fas fa-box"></i> Product</th> <!-- New Product Column -->
+                    <th><i class="fas fa-calendar"></i> Date</th>
+                    <th><i class="fas fa-dollar-sign"></i> Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#001</td>
+                    <td>John Doe</td>
+                    <td>Product A</td> <!-- Product for Order #001 -->
+                    <td>2023-10-01</td>
+                    <td>$100.00</td>
+                </tr>
+                <tr>
+                    <td>#002</td>
+                    <td>Jane Smith</td>
+                    <td>Product B</td> <!-- Product for Order #002 -->
+                    <td>2023-09-30</td>
+                    <td>$200.00</td>
+                </tr>
+                <tr>
+                    <td>#003</td>
+                    <td>Michael Brown</td>
+                    <td>Product C</td> <!-- Product for Order #003 -->
+                    <td>2023-09-29</td>
+                    <td>$150.00</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <script>
-        // Sample data (replace with real data from your backend)
-const mostPurchased = {
-    labels: ['Product A', 'Product B', 'Product C', 'Product D', 'Product E'],
-    data: [120, 90, 80, 70, 60]
-};
 
-const mostReviewed = {
-    labels: ['Product X', 'Product Y', 'Product Z', 'Product W', 'Product V'],
-    data: [50, 45, 40, 35, 30]
-};
+            </div>
+        </div>
 
-const productStatus = {
-    labels: ['In Stock', 'Low Stock', 'Out of Stock'],
-    data: [60, 30, 10]
-};
-
-const checkoutStats = {
-    totalCheckouts: 1250,
-    averageOrderValue: 85,
-    conversionRate: 3.2,
-    abandonedCarts: 150
-};
-
-// Create charts
-function createChart(ctx, type, labels, data, label) {
-    return new Chart(ctx, {
-        type: type,
-        data: {
-            labels: labels,
-            datasets: [{
-                label: label,
-                data: data,
-                backgroundColor: ['#91bd78', '#9cc388', '#c9ddbd', '#2a3a13', '#fafcf9'],
-                borderColor: '#2a3a13',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
+        <script>
+            // Line Chart
+            const lineChartCtx = document.getElementById('lineChart').getContext('2d');
+            const lineChart = new Chart(lineChartCtx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                        },
+                        tooltip: {
+                            mode: 'index',
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Months'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Sales Amount'
+                            }
+                        }
+                    }
                 }
-            }
-        }
-    });
-}
+            });
 
-// Initialize charts
-document.addEventListener('DOMContentLoaded', () => {
-    const purchaseCtx = document.getElementById('purchaseChart').getContext('2d');
-    const reviewCtx = document.getElementById('reviewChart').getContext('2d');
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-
-    createChart(purchaseCtx, 'bar', mostPurchased.labels, mostPurchased.data, 'Number of Purchases');
-    createChart(reviewCtx, 'bar', mostReviewed.labels, mostReviewed.data, 'Number of Reviews');
-    createChart(statusCtx, 'pie', productStatus.labels, productStatus.data, 'Product Status');
-
-    // Populate checkout stats
-    const checkoutStatsElement = document.getElementById('checkoutStats');
-    checkoutStatsElement.innerHTML = `
-        <div class="stat-item">
-            <div class="stat-value">${checkoutStats.totalCheckouts}</div>
-            <div class="stat-label">Total Checkouts</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">$${checkoutStats.averageOrderValue}</div>
-            <div class="stat-label">Average Order Value</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">${checkoutStats.conversionRate}%</div>
-            <div class="stat-label">Conversion Rate</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-value">${checkoutStats.abandonedCarts}</div>
-            <div class="stat-label">Abandoned Carts</div>
-        </div>
-    `;
-});
-    </script>
-</body>
-</html>
+            // Bar Chart
+            const barChartCtx = document.getElementById('barChart').getContext('2d');
+            const barChart = new Chart(barChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: 'Votes',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                        },
+                        tooltip: {
+                            mode: 'index',
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Colors'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Votes'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
