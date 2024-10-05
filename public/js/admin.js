@@ -178,3 +178,69 @@ const addProductModal = new bootstrap.Modal(document.getElementById('addProductM
 document.getElementById('addProductBtn').addEventListener('click', () => {
     addProductModal.show();
 });
+document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(document.getElementById('addProductForm'));
+
+    try {
+        const response = await fetch('/admin/products', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+            // Reload the product list or update UI accordingly
+        } else {
+            const error = await response.json();
+            alert('Error: ' + error.error);
+        }
+    } catch (error) {
+        console.error('Error adding product:', error);
+        alert('Failed to add product');
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and display categories
+    function loadCategories() {
+        fetch('/api/categories')
+            .then(response => response.json())
+            .then(data => {
+                let categoryList = '';
+                data.categories.forEach(category => {
+                    categoryList += `
+                        <tr>
+                            <td>${category.id}</td>
+                            <td>${category.name}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>`;
+                });
+                document.getElementById('categoryList').innerHTML = categoryList;
+            });
+    }
+
+    loadCategories();
+
+    // Add new category
+    document.getElementById('addCategoryForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/api/categories', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadCategories(); // Reload categories
+                document.getElementById('addCategoryModal').modal('hide'); // Hide modal
+            }
+        });
+    });
+});
+

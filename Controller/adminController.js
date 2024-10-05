@@ -1,4 +1,6 @@
 const db = require('../config/db'); // Assuming you have a MySQL database connection setup
+const multer = require('multer');
+const path = require('path');
 
 exports.getDashboardData = async (req, res) => {
     // Check if the user is authenticated
@@ -9,6 +11,7 @@ exports.getDashboardData = async (req, res) => {
     try {
         // Fetch the necessary data using promises
         const [productCount] = await db.query('SELECT COUNT(*) AS totalProducts FROM products');
+        const [categories] = await db.query('SELECT * FROM categories');
         const [orderData] = await db.query('SELECT COUNT(*) AS monthlyOrders, SUM(total_amount) AS monthlyRevenue FROM orders WHERE MONTH(created_at) = MONTH(CURRENT_DATE())');
         const [userCount] = await db.query('SELECT COUNT(*) AS totalUsers FROM users');
 
@@ -56,6 +59,39 @@ exports.getDashboardData = async (req, res) => {
     }
 };
 
+exports.getCategories = async (req, res) => {
+    try {
+        const [categories] = await db.query('SELECT * FROM categories');
+        res.render('adminDashboard', { categories });
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+        res.status(500).send('Server error');
+    }
+};
+
+// Configure multer for image upload
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/images/'); // Destination folder for uploaded images
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); // Save with unique filename
+    }
+});
+// File upload settings
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype);
+        if (extname && mimetype) {
+            return cb(null, true);
+        } else {
+            cb('Error: Images Only!');
+        }
+    }
+}).single('image'); // 'image' is the field name
 // Get all products
 exports.getProducts = async (req, res) => {
     try {
@@ -66,19 +102,32 @@ exports.getProducts = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch products' });
     }
 };
-
-// Add a new product
+//add products
 exports.addProduct = async (req, res) => {
-    const { name, description, price, image } = req.body;
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ error: err });
+        }
 
-    try {
-        await db.query('INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)', [name, description, price, image]);
-        res.status(201).json({ message: 'Product added successfully' });
-    } catch (error) {
-        console.error('Error adding product:', error);
-        res.status(500).json({ error: 'Failed to add product' });
-    }
+        const { name, description, price, category_id } = req.body;
+        const imageUrl = req.file ? `/uploads/images/${req.file.filename}` : null;
+
+        try {
+            if (!name || !description || !price || !category_id || !imageUrl) {
+                return res.status(400).json({ error: 'All fields are required' });
+            }
+
+            await db.query('INSERT INTO products (prodname, description, price, image, cat_id) VALUES (?, ?, ?, ?, ?)', 
+                [name, description, price, imageUrl, category_id]);
+
+            res.status(201).json({ message: 'Product added successfully' });
+        } catch (error) {
+            console.error('Error adding product:', error);
+            res.status(500).json({ error: 'Failed to add product' });
+        }
+    });
 };
+
 
 // Delete a product
 exports.deleteProduct = async (req, res) => {

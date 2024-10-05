@@ -6,7 +6,12 @@ const userController = require('../Controller/userController');
 const customerController = require('../Controller/customerController');
 
 // Public routes (Handled by mejicoController)
-router.get('/', mejicoController.home);
+router.get('/', (req, res) => {
+    // Pass the user session data to the EJS template
+    return res.render('home', {
+        user: req.session.user // Pass the user object if logged in
+    });
+});
 router.get('/about', mejicoController.about);
 router.get('/contact', mejicoController.contact);
 router.get('/testimonial', mejicoController.testimonial);
@@ -15,6 +20,15 @@ router.get('/product', mejicoController.product);
 router.get('/howtouse', mejicoController.howtouse);
 router.get('/blog', mejicoController.blog);
 router.get('/notFound', mejicoController.notFound);
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.redirect('/'); // Redirect to home on error
+        }
+        res.clearCookie('connect.sid'); // Clear the cookie
+        res.redirect('/'); // Redirect to home page after logout
+    });
+});
 
 // User routes (Handled by userController)
 router.get('/login', userController.login);
@@ -23,7 +37,6 @@ router.post('/login', userController.handleLogin);
 router.post('/register', userController.handleRegister);
 
 // Customer routes (Handled by customerController)
-// Prefixed with '/customer' for better clarity
 router.get('/customer/products', customerController.getAllProducts);  // Get all products for customers
 router.get('/customer/products/:prod_id', customerController.getProduct);  // Get a single product by ID
 
@@ -36,27 +49,11 @@ router.delete('/customer/cart', customerController.clearCart);        // Clear t
 // Order submission for customers
 router.post('/customer/order', customerController.submitOrder);       // Submit an order
 
-
-
 // Admin routes (Handled by adminController)
 router.get('/admin/dashboard', adminController.getDashboardData); // Get dashboard data
 router.get('/admin/products', adminController.getProducts); // Get all products
 router.post('/admin/products', adminController.addProduct); // Add a new product
 router.delete('/admin/products/:prod_id', adminController.deleteProduct); // Delete a product
 router.get('/admin/orders', adminController.getOrders); // Get all orders
-
-// Customer routes (Handled by customerController)
-// Routes for products
-router.get('/products', customerController.getAllProducts);  // Get all products
-router.get('/products/:prod_id', customerController.getProduct);  // Get a single product by ID
-
-// Routes for cart operations
-router.post('/cart', customerController.addToCart);          // Add product to cart
-router.get('/cart', customerController.getCart);             // Get the cart for the current user
-router.delete('/cart/:cart_id', customerController.removeFromCart); // Remove a specific item from the cart by cart item ID
-router.delete('/cart', customerController.clearCart);        // Clear the entire cart
-
-// Route for submitting an order
-router.post('/order', customerController.submitOrder);       // Submit an order
 
 module.exports = router;

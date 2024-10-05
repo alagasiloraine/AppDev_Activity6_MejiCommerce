@@ -25,6 +25,7 @@ app.use(express.static('public'));
 // Use routes
 app.use('/', routes); // All routes handled in the routes file
 
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
