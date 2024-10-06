@@ -1,21 +1,25 @@
-const bodyParser = require('body-parser');
 const express = require('express');
-const routes = require('./routes/router'); // Import the router
+const bodyParser = require('body-parser');
+const path = require('path');
+const productRoutes = require('./routes/productRoutes');
+
 const app = express();
 
-// Set the view engine to EJS
+// Set EJS as the view engine
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Middleware for parsing URL-encoded data
+// Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the 'public' directory
-app.use(express.static('public'));
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Use the routes defined in the router.js file
-app.use('/', routes);  // This line will handle all the routes
+// Use product routes
+app.use('/', productRoutes);
 
 // Start the server
-app.listen(3000, () => {
-    console.log('Server initialized on http://localhost:3000');
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

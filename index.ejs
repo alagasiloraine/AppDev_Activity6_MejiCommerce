@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/styles/style.css">
+    <title>Product Inventory</title>
+</head>
+<body>
+    <h1>Product Inventory</h1>
+    <a href="/add" class="button"><i class="fas fa-plus"></i>Add Product</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Stocks</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
+                <tr>
+                    <td><%= product.name %></td>
+                    <td><%= product.price %></td>
+                    <td><%= product.description %></td>
+                    <td><%= product.stocks %></td>
+                    <td>
+                        <a href="/edit/<%= product.id %>" class="button"><i class="fas fa-edit"></i>Edit</a>
+                        <a href="/delete/<%= product.id %>" class="button"><i class="fas fa-trash"></i>Delete</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Mejico Medical Spa 2024</p>
+    </footer>
+</body>
+</html>
