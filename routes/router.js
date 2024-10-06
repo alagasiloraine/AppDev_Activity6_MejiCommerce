@@ -114,14 +114,15 @@ router.delete('/customer/cart', customerController.clearCart);        // Clear t
 router.post('/customer/order', customerController.submitOrder);       // Submit an order
 
 // Admin routes (Handled by adminController)
+// Admin routes (Handled by adminController)
 router.get('/admin/dashboard', adminController.getDashboardData); // Get dashboard data
 router.get('/admin/products', adminController.getProducts); // Get all products
 router.post('/admin/products', adminController.addProduct); // Add a new product
-router.post('/admin/products/:prod_id', adminController.editProduct);
-
-router.get('/admin/products/:prod_id', adminController.viewProduct); //View Product
+router.put('/admin/products/:prod_id', adminController.editProduct); // Edit a product
+router.get('/admin/products/:prod_id', adminController.viewProduct); // View Product
 router.delete('/admin/products/:prod_id', adminController.deleteProduct); // Delete a product
 router.get('/admin/orders', adminController.getOrders); // Get all orders
+router.post('/admin/products/:prod_id', adminController.editProduct);
 
 module.exports = router;
 

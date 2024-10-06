@@ -158,6 +158,7 @@ exports.viewProduct = async (req, res) => {
     }
 };
 
+//EDIT PRODUCT
 exports.editProduct = async (req, res) => {
     console.log(req.body); // Log form data
     console.log(req.file); // Log uploaded file info
@@ -198,7 +199,6 @@ exports.editProduct = async (req, res) => {
     });
 };
 
-// Delete product by ID
 exports.deleteProduct = async (req, res) => {
     try {
         const prod_id = req.params.prod_id;  // Get product ID from request parameters
