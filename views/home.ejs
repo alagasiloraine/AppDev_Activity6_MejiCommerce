@@ -23,21 +23,20 @@
     <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">    
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <div class="container-fluid sticky-top">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light p-0">
+    <div class="container-fluid sticky-top p-0">
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <div class="container-fluid">
                 <a href="/" class="navbar-brand">
                     <h3 class="text-white">
                         <i class="fas fa-spa"></i> MEJICO MD Medical Spa
                     </h3>
-                </a>                
+                </a>
                 <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -48,116 +47,53 @@
                         <a href="/about" class="nav-item nav-link">About</a>
                         <a href="/product" class="nav-item nav-link">Products</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Menus</a>
                             <div class="dropdown-menu bg-light mt-2">
                                 <a href="/feature" class="dropdown-item">Features</a>
                                 <a href="/howtouse" class="dropdown-item">How To Use</a>
                                 <a href="/testimonial" class="dropdown-item">Testimonial</a>
                                 <a href="/blog" class="dropdown-item">Blog Articles</a>
-                                <a href="/notFound" class="dropdown-item">404 Page</a>
                             </div>
                         </div>
                         <a href="/contact" class="nav-item nav-link">Contact</a>
                     </div>
-                    <div class="d-none d-lg-inline-block ms-3">
-                        <a href="/login" class="btn text-white px-1 me-2">
-                            <i class="fas fa-user"></i> Login
-                        </a>
-                        <a href="/register" class="btn text-white py-2 px-1">
-                            <i class="fas fa-user-plus"></i> Register
-                        </a>
-                    </div>
+                    <% if (user) { %>
+                        <span class="navbar-text text-white me-3">Welcome, <%= user.name %>!</span>
+                        <a href="/logout" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Logout</a>
+                    <% } else { %>
+                        <a href="/login" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Login</a>
+                        <a href="/register" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Register</a>
+                    <% } %>
                 </div>
-            </nav>
-        </div>
-    </div>
-
+            </div>
+        </nav>
+    </div> 
+    
     <div class="container-fluid bg-primary hero-header mb-5">
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h3 class="fw-light text-white animated slideInRight">Your Partner in Health & Beauty</h3>
-                    <h1 class="display-4 text-white animated slideInRight">Expert Care for <span class="fw-light text-dark">Radiant Skin </span> and Lasting Wellness</h1>
-                    <p class="text-dark mb-4 animated slideInRight">Mejico MD Medical Spa Clinic offers a blend of advanced dermatological treatments and personalized skin care services 
+                    <h3 class="fw-light text-white">Your Partner in Health & Beauty</h3>
+                    <h1 class="display-4 text-white">Expert Care for <span class="fw-light text-dark">Radiant Skin </span> and Lasting Wellness</h1>
+                    <p class="text-dark mb-4">Mejico MD Medical Spa Clinic offers a blend of advanced dermatological treatments and personalized skin care services 
                     designed to bring out your natural beauty. Whether you're seeking medical consultations or luxurious facials, trust us to enhance your skin's health and appearance.</p>
-                    <a href="" class="btn btn-dark py-2 px-4 me-3 animated slideInRight">Shop Now</a>
-                    <a href="" class="btn btn-outline-dark py-2 px-4 animated slideInRight">Contact Us</a>
+                    <a href="" class="btn btn-dark py-2 px-4 me-3">Shop Now</a>
+                    <a href="" class="btn btn-outline-dark py-2 px-4">Contact Us</a>
                 </div>
                 <div class="col-lg-6">
-                    <img class="img-fluid animated pulse infinite" src="/img/mejico-logo.png" alt="">
+                    <img class="img-fluid" src="/img/mejico-MDSpa-logo.png" alt="">
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-leaf fa-3x text-dark mb-3"></i>
-                            <h5 class="text-white mb-0">100% Natural</h5>
-                            <p class="text-white mt-3">Enjoy treatments made with the finest organic ingredients, free from harmful chemicals.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-tint-slash fa-3x text-dark mb-4"></i>
-                            <h5 class="text-white mb-0">Anti Hair Fall</h5>
-                            <p class="text-white mt-3">Strengthen your hair roots and reduce hair fall with our specially formulated treatments.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-times fa-3x text-dark mb-4"></i>
-                            <h5 class="text-white mb-0">Hypoallergenic</h5>
-                            <p class="text-white mt-3">Enjoy gentle, dermatologist-tested products that are safe for sensitive skin.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-clock fa-3x text-dark mb-4"></i>
-                            <h5 class="text-white mb-0">Anti-Aging</h5>
-                            <p class="text-white mt-3">Combat fine lines and wrinkles with our advanced anti-aging solutions.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-tint fa-3x text-dark mb-4"></i>
-                            <h5 class="text-white mb-0">Hydrating</h5>
-                            <p class="text-white mt-3">Deeply moisturize and revitalize your skin with our hydrating treatments.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="feature-item position-relative bg-primary text-center p-2">
-                        <div class="border py-5 px-3">
-                            <i class="fa fa-sun fa-3x text-dark mb-4"></i>
-                            <h5 class="text-white mb-0">Brightening</h5>
-                            <p class="text-white mt-3">Achieve a radiant complexion with our brightening facials and products.</p>
-                        </div>
-                    </div>
-                </div>                
-            </div>
-        </div>
-    </div>
-
+    
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row g-5 align-items-center">
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                    <img class="img-fluid animated pulse infinite" src="/img/product.jpg">
+                <div class="col-lg-6">
+                    <img class="img-fluid" src="/img/product.jpg">
                 </div>
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <div class="col-lg-6">
                     <h1 class="text-primary mb-4">Healthy Skin <span class="fw-light text-dark">Is A Symbol Of Our
                             Beauty</span></h1>
                     <p class="mb-4">Welcome to MEJICO MD Medical Spa, where we prioritize your wellness and beauty. Our clinic offers a 
@@ -169,474 +105,26 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="container-fluid deal bg-primary my-5 py-5">
-        <div class="container py-5">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                    <img class="img-fluid animated pulse infinite" src="/img/productmejico.png">
-                </div>
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="bg-white text-center p-4">
-                        <div class="border p-4">
-                            <p class="mb-2">Natural & Organic Products</p>
-                            <h2 class="fw-bold text-uppercase mb-4">Deals of the Day</h2>
-                            <h1 class="display-4 text-primary mb-4">₱99.99</h1>
-                            <h5>Fresh Organic Spa Products</h5>
-                            <p class="mb-4">Indulge in our spa treatments made with fresh, organic ingredients. 
-                            Experience the purity and effectiveness of nature's best.</p>
-                            <div class="row g-0 cdt mb-4">
-                                <div class="col-3">
-                                    <h1 class="display-6" id="cdt-days"></h1>
-                                </div>
-                                <div class="col-3">
-                                    <h1 class="display-6" id="cdt-hours"></h1>
-                                </div>
-                                <div class="col-3">
-                                    <h1 class="display-6" id="cdt-minutes"></h1>
-                                </div>
-                                <div class="col-3">
-                                    <h1 class="display-6" id="cdt-seconds"></h1>
-                                </div>
-                            </div>
-                            <a class="btn btn-primary py-2 px-4" href="">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid py-5"> 
-        <div class="container">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="text-primary mb-3"><span class="fw-light text-dark">Best Benefits Of Our</span> Medical Spa Treatments</h1>
-                <p class="mb-5">Experience rejuvenation and relaxation with our range of medical spa services designed to enhance your beauty and wellness.</p>
-            </div>
-            <div class="row g-4 align-items-center">
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="row g-5">
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Non-Invasive Treatments</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>Enjoy effective results without the need for surgery or extended recovery time.</span>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Customized Care Plans</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>Receive personalized treatment plans tailored to your unique skin and health needs.</span>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Expert Medical Supervision</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>All treatments are performed under the guidance of qualified medical professionals.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <img class="img-fluid animated pulse infinite" src="/img/productmejico1.png" alt="">
-                </div>
-                <div class="col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="row g-5">
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Relaxation and Stress Relief</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>Experience a tranquil environment designed to promote relaxation and wellness.</span>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Skin Rejuvenation</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>Revitalize your skin with advanced treatments targeting signs of aging and damage.</span>
-                            </div>
-                        </div>
-                        <div class="col-12 d-flex">
-                            <div class="btn-square rounded-circle border flex-shrink-0" style="width: 80px; height: 80px;">
-                                <i class="fa fa-check fa-2x text-primary"></i>
-                            </div>
-                            <div class="ps-3">
-                                <h5>Long-Lasting Results</h5>
-                                <hr class="w-25 bg-primary my-2">
-                                <span>Achieve noticeable improvements in your appearance with long-lasting effects.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid how-to-use bg-primary my-5 py-5">
-        <div class="container text-white py-5">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="text-white mb-3"><span class="fw-light text-dark">How To Use Our</span> Natural & Organic
-                    <span class="fw-light text-dark">Spa Products</span></h1>
-                <p class="mb-5">This product is designed to rejuvenate and nourish your skin. Follow these steps for optimal results:</p>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.1s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-hand-paper fa-3x text-dark"></i> 
-                    </div>
-                    <h5 class="text-white">Dispense Product</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Take a small amount of the product in your hands.</span>
-                </div>
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.3s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-fire-alt fa-3x text-dark"></i>
-                    </div>
-                    <h5 class="text-white">Warm It Up</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Rub your hands together to warm the product slightly.</span>
-                </div>
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-spa fa-3x text-dark"></i> 
-                    </div>
-                    <h5 class="text-white">Apply Evenly</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Apply the product evenly onto your skin or hair, depending on the type of product.</span>
-                </div>
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-hand-holding-heart fa-3x text-dark"></i>
-                    </div>
-                    <h5 class="text-white">Massage Gently</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Use gentle circular motions to massage the product in, allowing it to absorb fully.</span>
-                </div>
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-clock fa-3x text-dark"></i>
-                    </div>
-                    <h5 class="text-white">Let It Absorb</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Allow the product to absorb fully into your skin or hair.</span>
-                </div>
-                <div class="col-lg-4 text-center wow fadeIn" data-wow-delay="0.5s">
-                    <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
-                        <i class="fa fa-smile fa-3x text-dark"></i>
-                    </div>
-                    <h5 class="text-white">Enjoy the Benefits</h5>
-                    <hr class="w-25 bg-light my-2 mx-auto">
-                    <span>Enjoy the soothing sensation and let the product work its magic, providing you with the desired results!</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="text-primary mb-3"><span class="fw-light text-dark">Our Natural</span> Spa Products</h1>
-                <p class="mb-5">The products used in every spa session are made from natural ingredients.</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="product-image img-fluid mb-4" src="/img/item1.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(99)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Massage Oil</a>
-                        <h5 class="text-primary mb-3">Php 350</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="product-image img-fluid mb-4" src="img/item3.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(100)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Essential Oil</a>
-                        <h5 class="text-primary mb-3">Php 300</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                
-                
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item4.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(99)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Cleanser</a>
-                        <h5 class="text-primary mb-3">Php 250</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item5.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(45)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Toner</a>
-                        <h5 class="text-primary mb-3">Php 200</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item6.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                        
-                            <small>(50)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Moisturizer</a>
-                        <h5 class="text-primary mb-3">Php 160</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item8.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(99)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Serums</a>
-                        <h5 class="text-primary mb-3">Php 190</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item9.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(99)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Exfoliants</a>
-                        <h5 class="text-primary mb-3">Php 180</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="product-item text-center border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/item10.png" alt="">
-                        <div class="mb-2">
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small class="fa fa-star text-primary"></small>
-                            <small>(99)</small>
-                        </div>
-                        <a href="" class="h6 d-inline-block mb-2">Body Brush</a>
-                        <h5 class="text-primary mb-3">Php 230</h5>
-                        <a href="" class="btn btn-outline-primary px-3">Add To Cart</a>
-                    </div>
-                </div>
-                <div class="col-12 text-center">
-                    <a class="btn btn-primary py-2 px-4" href="">Load More Products</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid testimonial bg-primary my-5 py-5">
-        <div class="container text-white py-5">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="text-white mb-3">Our Clients Said <span class="fw-light text-dark">About Our Medical Spa Treatments</span></h1>
-                <p class="mb-5">Experience the rejuvenation and relaxation that our specialized medical spa treatments provide. Here's what our satisfied clients have to say:</p>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.1s">
-                        <div class="testimonial-item text-center" data-dot="1">
-                            <img class="img-fluid border p-2" src="img/testimonial-1.jpg" alt="">
-                            <h5 class="fw-light lh-base text-white">"The anti-aging facial treatment was beyond amazing! My skin feels so refreshed, and the staff were incredibly professional and caring."</h5>
-                            <h5 class="mb-1">Sophia Cruz</h5>
-                            <h6 class="fw-light text-white fst-italic mb-0">Marketing Manager</h6>
-                        </div>
-                        <div class="testimonial-item text-center" data-dot="2">
-                            <img class="img-fluid border p-2" src="img/testimonial-2.jpg" alt="">
-                            <h5 class="fw-light lh-base text-white">"After the body detox and massage, I felt like a new person. It's the perfect way to unwind and focus on my well-being."</h5>
-                            <h5 class="mb-1">John Doe</h5>
-                            <h6 class="fw-light text-white fst-italic mb-0">Fitness Instructor</h6>
-                        </div>
-                        <div class="testimonial-item text-center" data-dot="3">
-                            <img class="img-fluid border p-2" src="img/testimonial-3.jpg" alt="">
-                            <h5 class="fw-light lh-base text-white">"The hydrating facial really helped with my dry skin. I noticed immediate results, and the calming atmosphere was just what I needed."</h5>
-                            <h5 class="mb-1">Jeydon Lopez</h5>
-                            <h6 class="fw-light text-white fst-italic mb-0">Teacher</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="mx-auto text-center wow fadeIn" data-wow-delay="0.1s" style="max-width: 600px;">
-                <h1 class="text-primary mb-3"><span class="fw-light text-dark">Latest</span> From Our Blog</h1>
-                <p class="mb-5">Discover tips and insights on self-care, wellness, and rejuvenation with our expert articles from the world of medical spa treatments.</p>
-            </div>
-            <div class="row g-4">
-
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    
-                    <div class="blog-item border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/blog1.jpg" alt="">
-                        <a href="blog1" class="h5 lh-base d-inline-block">5 Benefits of Regular Facial Treatments</a>
-                        <div class="d-flex text-black-50 mb-2">
-                            <div class="pe-3">
-                                <small class="fa fa-eye me-1"></small>
-                                <small>10,000 Views</small>
-                            </div>
-                            <div class="pe-3">
-                                <small class="fa fa-comments me-1"></small>
-                                <small>200 Comments</small>
-                            </div>
-                        </div>
-                        <p class="mb-4">Explore how regular facial treatments can improve your skin’s health and give you a youthful glow.</p>
-                        <a href="blog1" class="btn btn-outline-primary px-3">Read More</a>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="blog-item border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/blog2.jpg" alt="">
-                        <a href="blog2" class="h5 lh-base d-inline-block">The Natural Remedies for Glowing Skin</a>
-                        <div class="d-flex text-black-50 mb-2">
-                            <div class="pe-3">
-                                <small class="fa fa-eye me-1"></small>
-                                <small>12,500 Views</small>
-                            </div>
-                            <div class="pe-3">
-                                <small class="fa fa-comments me-1"></small>
-                                <small>350 Comments</small>
-                            </div>
-                        </div>
-                        <p class="mb-4">Learn about natural ingredients that can help brighten your complexion and boost your skin’s radiance.</p>
-                        <a href="blog2" class="btn btn-outline-primary px-3">Read More</a>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="blog-item border h-100 p-4">
-                        <img class="img-fluid mb-4" src="img/blog3.jpg" alt="">
-                        <a href="blog3" class="h5 lh-base d-inline-block">The Ultimate Guide to Body Detox Treatments</a>
-                        <div class="d-flex text-black-50 mb-2">
-                            <div class="pe-3">
-                                <small class="fa fa-eye me-1"></small>
-                                <small>8,700 Views</small>
-                            </div>
-                            <div class="pe-3">
-                                <small class="fa fa-comments me-1"></small>
-                                <small>180 Comments</small>
-                            </div>
-                        </div>
-                        <p class="mb-4">Discover how body detox treatments can help cleanse your system and leave you feeling rejuvenated.</p>
-                        <a href="blog3" class="btn btn-outline-primary px-3">Read More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
+    </div>  
 
     <div class="container-fluid bg-white footer">
         <div class="container py-5">
             <div class="row g-5">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
+                <div class="col-md-6">
                     <a href="/" class="d-inline-block mb-3">
                         <h1 class="text-primary">MEJICO MD Medical Spa</h1>
                     </a>
                     <p class="mb-0"> Blending medical innovation with spa luxury, our team is dedicated to helping you look and feel your best. Experience the perfect balance of health and beauty. </p>
                 </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
+                <div class="col-md-6">
                     <h5 class="mb-4">Get In Touch</h5>
                     <p><i class="fa fa-map-marker-alt me-3"></i>San Vicente West, Calapan City</p>
                     <p><i class="fa fa-phone-alt me-3"></i>0933 869 7119</p>
                     <p><i class="fa fa-envelope me-3"></i>mejicomdmedicalspa@gmail.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-primary me-1" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-primary me-1" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-primary me-1" href=""><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-square btn-outline-primary me-1" href=""><i
-                                class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <h5 class="mb-4">Our Products</h5>
-                    <a class="btn btn-link" href="product">Massage Oil</a>
-                    <a class="btn btn-link" href="product">Essential Oil</a>
-                    <a class="btn btn-link" href="product">Body Scrubs</a>
-                    <a class="btn btn-link" href="product">Face Masks</a>
-                    <a class="btn btn-link" href="product">Hand Creams</a>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <h5 class="mb-4">Popular Link</h5>
-                    <a class="btn btn-link" href="about">About Us</a>
-                    <a class="btn btn-link" href="contact">Contact Us</a>
-                    <a class="btn btn-link" href="">Privacy Policy</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Career</a>
                 </div>
             </div>
         </div>
-        <div class="container wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
             <div class="copyright">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
@@ -656,9 +144,7 @@
             </div>
         </div>
     </div>
-
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/lib/wow/wow.min.js"></script>

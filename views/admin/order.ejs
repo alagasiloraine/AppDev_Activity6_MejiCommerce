@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/adminstyle.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="logo">
+                <img src="/img/mejicoMD-logo.png" alt="Mejico MD Medical Spa Logo" class="logo-img">
+                <h2 class="logo-text">Mejico MD Medical <br> Spa</h2>
+            </div>
+        
+            <ul>
+                <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                <li><a href="/admin/products"><i class="fa-solid fa-cart-shopping"></i> <span>Products</span></a></li>
+                <li><a href="/admin/orders"><i class="fas fa-box"></i> <span>Orders</span></a></li>
+                <li><a href="/admin/customer"><i class="fas fa-users"></i> <span>Customers</span></a></li>
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+            </ul>
+        </div> 
+
+        <div class="main-content">
+            <div class="header">
+                <h1><i class="fas fa-cart-shopping"></i> Orders</h1>
+               
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search by Customer or Product..." onkeyup="searchOrders()">
+                </div>
+            </div>
+
+            <div class="table-section-order">
+                <h3><i class="fas fa-table"></i> Current Orders</h3>
+                <table id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> Order ID</th>
+                            <th><i class="fas fa-user"></i> Customer</th>
+                            <th><i class="fas fa-box"></i> Product</th>
+                            <th><i class="fas fa-dollar-sign"></i> Price</th>
+                            <th><i class="fas fa-calendar"></i> Date</th>
+                            <th><i class="fas fa-flag"></i> Status</th> 
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+                <div class="pagination-order">
+                    <button id="prevBtn" onclick="changePage(-1)" disabled>Prev</button>
+                    <button id="nextBtn" onclick="changePage(1)">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Order Page Loaded');
+            filteredOrders = orders; 
+            displayTable(); 
+        });
+
+        let currentPage = 1;
+        const rowsPerPage = 5; 
+        let filteredOrders = [];
+
+        function displayTable() {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = ''; 
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+
+            paginatedOrders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.product}</td>
+                    <td>${order.price}</td>
+                    <td>${order.date}</td>
+                    <td>${order.status}</td> 
+                `;
+                tableBody.appendChild(row);
+            });
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = endIndex >= filteredOrders.length;
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            displayTable();
+        }
+
+        function searchOrders() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            filteredOrders = orders.filter(order => {
+                return (
+                    order.customer.toLowerCase().includes(searchInput) ||
+                    order.product.toLowerCase().includes(searchInput)
+                );
+            });
+            currentPage = 1; 
+            displayTable();
+        }
+
+        const orders = [
+            { id: 1, customer: 'John Doe', product: 'Product A', price: 25.99, date: '2023-10-01', status: 'Pending' },
+            { id: 2, customer: 'Jane Smith', product: 'Product B', price: 15.99, date: '2023-10-02', status: 'Completed' },
+            { id: 3, customer: 'Alice Johnson', product: 'Product C', price: 12.99, date: '2023-10-01', status: 'Pending' },
+            { id: 4, customer: 'Bob Brown', product: 'Product D', price: 29.99, date: '2023-10-02', status: 'Shipped' },
+            { id: 5, customer: 'Charlie Davis', product: 'Product E', price: 10.99, date: '2023-10-01', status: 'Completed' },
+            { id: 6, customer: 'Diana Miller', product: 'Product F', price: 22.99, date: '2023-10-02', status: 'Pending' },
+            { id: 7, customer: 'Ethan Wilson', product: 'Product G', price: 14.99, date: '2023-10-01', status: 'Completed' },
+            { id: 8, customer: 'Fiona Garcia', product: 'Product H', price: 30.99, date: '2023-10-02', status: 'Shipped' },
+            { id: 9, customer: 'George Martinez', product: 'Product I', price: 8.99, date: '2023-10-01', status: 'Pending' },
+            { id: 10, customer: 'Hannah Rodriguez', product: 'Product J', price: 18.99, date: '2023-10-02', status: 'Completed' },
+        ];
+    </script>
+</body>
+</html>

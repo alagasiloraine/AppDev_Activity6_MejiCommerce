@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+  <link rel="stylesheet" href="/css/adminstyle.css" />
+
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.875rem;
+      width: 135%;
+    }
+
+    .table-container {
+      margin-left: 2px;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid #dee2e6;
+    }
+
+    .table thead th {
+      background-color: #d1e7dd;
+      border-bottom: 2px solid #198754;
+    }
+
+    .product-image {
+      max-width: 100px;
+      max-height: 100px;
+      object-fit: cover;
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    .btn-add-product {
+      margin-bottom: 20px;
+    }
+
+    .btn-green {
+      background-color: green;
+      border-color: green;
+      color: white;
+    }
+
+    .btn-green:hover {
+      background-color: darkgreen;
+      border-color: darkgreen;
+    }
+
+    .action-btn {
+      font-size: 0.875rem;
+      /* Smaller button font size */
+      margin: 0 5px;
+    }
+
+    .action-btn {
+      font-size: 0.75rem;
+      /* Smaller font */
+      padding: 5px 10px;
+      /* Reduced padding for smaller buttons */
+      width: 30px;
+      /* Set a smaller width */
+      height: 30px;
+      /* Set a smaller height */
+      margin: 2px;
+      /* Optional: Adjust space between buttons */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <img src="/img/mejicoMD-logo.png" alt="Mejico MD Medical Spa Logo" class="logo-img" />
+        <h2 class="logo-text">Mejico MD Medical Spa</h2>
+      </div>
+
+      <ul>
+        <li>
+          <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+        </li>
+        <li>
+          <a href="/admin/products"><i class="fa-solid fa-cart-shopping"></i>
+            <span>Products</span></a>
+        </li>
+        <li>
+          <a href="/admin/orders"><i class="fas fa-box"></i> <span>Orders</span></a>
+        </li>
+        <li>
+          <a href="/admin/customer"><i class="fas fa-users"></i> <span>Customers</span></a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1 class="mb-4">Products List</h1>
+
+      <!-- Add Product Button -->
+      <button class="btn btn-green btn-add-product" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <i class="fas fa-plus"></i> Add Product
+      </button>
+
+      <!-- Debugging: Check if 'products' is passed -->
+      <% if (!products || products.length === 0) { %>
+      <p>No products available or failed to load.</p>
+      <% } else { %>
+
+      <!-- Product Table with Bootstrap styling -->
+      <div class="table-container">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(product => { %>
+            <tr>
+              <td><%= product.prodname %></td>
+              <td><%= product.description %></td>
+              <td>
+                <img src="/uploads/images/<%= product.image %>" alt="<%= product.prodname %>" class="product-image rounded" />
+              </td>
+              <td>$<%= product.price %></td>
+              <td><%= product.cat_id %></td>
+              <td>
+                <a href="#" class="btn btn-warning action-btn btn-edit-product" data-prod-id="<%= product.prod_id %>" data-prodname="<%= product.prodname %>" data-description="<%= product.description %>" data-price="<%= product.price %>" data-cat-id="<%= product.cat_id %>" data-image="<%= product.image %>">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <a href="/admin/products/<%= product.prod_id %>" class="btn btn-info action-btn">
+                  <i class="fas fa-eye"></i>
+                </a>
+                <a href="#" class="btn btn-danger action-btn" onclick="deleteProduct('<%= product.prod_id %>'); return false;">
+                  <i class="fas fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Modal for Adding a Product -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/products" id="addProductForm" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="prodname" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="prodname" name="prodname" required />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="price" name="price" required />
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input type="text" class="form-control" id="category" name="cat_id" required placeholder="Enter category" />
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Product Image</label>
+              <input type="file" class="form-control" id="image" name="image" required />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Editing a Product -->
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" enctype="multipart/form-data" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProduct" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="edit_prod_id" name="prod_id" />
+            <div class="mb-3">
+              <label for="edit_prodname" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="edit_prodname" name="prodname" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit_description" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_description" name="description" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit_price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="edit_price" name="price" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit_category" class="form-label">Category</label>
+              <input type="text" class="form-control" id="edit_category" name="cat_id" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit_image" class="form-label">Product Image</label>
+              <input type="file" class="form-control" id="edit_image" name="image" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include jQuery for simplicity -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Trigger the modal and load the product data into the form when the edit button is clicked
+      $(".btn-edit-product").on("click", function() {
+        const prod_id = $(this).data("prod_id");
+        const prodname = $(this).data("prodname");
+        const description = $(this).data("description");
+        const price = $(this).data("price");
+        const cat_id = $(this).data("cat_id");
+        const image = $(this).data("image");
+
+        // Fill the modal fields with the data
+        $("#edit_prod_id").val(prod_id);
+        $("#edit_prodname").val(prodname);
+        $("#edit_description").val(description);
+        $("#edit_price").val(price);
+        $("#edit_category").val(cat_id);
+        $("#current_image").attr("/uploads/images/" + image);
+
+        // Show the modal
+        $("#editProductModal").modal("show");
+      });
+
+      // Handle form submission via AJAX (optional)
+      // Handle form submission via AJAX
+      $('#editProductForm').on('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        // Check if the image input has a file; if not, don't send it
+        if (!$('#edit_image').val()) {
+          formData.delete('image'); // Remove the image field if it's empty
+        }
+
+        const prod_id = $('#edit_prod_id').val(); // Get product ID from the form
+
+        $.ajax({
+          url: '/admin/products/' + prod_id, // Use actual product ID
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function(response) {
+            $('#editProductModal').modal('hide'); // Close the modal on success
+            location.reload(); // Reload the page to show updated data
+          },
+          error: function(xhr) {
+            console.error('Error updating product:', xhr.responseText);
+            alert('Failed to update product. Please try again.');
+          }
+        });
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      // Handle the product form submission
+      $("#addProductModal form").on("submit", function(event) {
+        event.preventDefault(); // Prevent form from submitting normally
+
+        // Prepare form data
+        var formData = new FormData(this);
+
+        // Send the AJAX request
+        $.ajax({
+          url: "/admin/products",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          success: function(response) {
+            if (response.message) {
+              // Close the modal
+              $("#addProductModal").modal("hide");
+
+              // Reload the product list to show the new product
+              location.reload(); // This refreshes the page
+            }
+          },
+          error: function(xhr) {
+            alert(
+              "Failed to add product. Please check your input and try again."
+            );
+          },
+        });
+      });
+    });
+  </script>
+  <script>
+    // JavaScript function to delete product
+    function deleteProduct(prod_id) {
+      // Confirm before deleting
+      if (confirm("Are you sure you want to delete this product?")) {
+        // Send DELETE request using fetch
+        fetch(`/admin/products/${prod_id}`, {
+            method: "DELETE",
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              alert(data.message); // Show success message
+              location.reload(); // Reload the page to reflect the changes
+            } else {
+              alert(`Failed to delete product: ${data.error}`); // Show error message if any
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting product:", error);
+            alert("An error occurred while trying to delete the product.");
+          });
+      }
+    }
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
