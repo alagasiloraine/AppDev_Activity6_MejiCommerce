@@ -11,7 +11,6 @@
 <body>
     <div class="dashboard">
         <div class="sidebar">
-            <!-- Logo and text for Mejico MD Medical Spa -->
             <div class="logo">
                 <img src="/img/mejicoMD-logo.png" alt="Mejico MD Medical Spa Logo" class="logo-img">
                 <h2 class="logo-text">Mejico MD Medical Spa</h2>
@@ -20,28 +19,29 @@
             <ul>
                 <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="/admin/products"><i class="fa-solid fa-cart-shopping"></i> <span>Products</span></a></li>
+                <li><a href="/admin/category"><i class="fa-solid fa-list"></i><span>Category</span></a></li> 
                 <li><a href="/admin/orders"><i class="fas fa-box"></i> <span>Orders</span></a></li>
-                <li><a href="/admin/customer"><i class="fas fa-users"></i> <span>Customers</span></a></li>
-                <li><a href="#"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+                <li><a href="/admin/customers"><i class="fas fa-users"></i> <span>Customers</span></a></li>
+                <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
             </ul>
         </div>           
 
-        <!-- Main Content -->
         <div class="main-content">
             <div class="header">
                 <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
             </div>
 
-            <!-- Cards Section -->
             <div class="cards">
                 <div class="card">
                     <h3><i class="fas fa-users"></i> Total Users</h3>
-                    <p>1,250</p>
+                    <p><%= totalUsers %></p>
                 </div>
+                
                 <div class="card">
-                    <h3><i class="fas fa-chart-line"></i> Total Sales</h3>
-                    <p>$45,000</p>
-                </div>
+                    <h3><i class="fas fa-chart-line"></i> Total Products</h3>
+                    <p><%= totalProducts %></p>
+                </div>               
+
                 <div class="card">
                     <h3><i class="fas fa-box-open"></i> Total Orders</h3>
                     <p>320</p>
@@ -55,56 +55,15 @@
                         <canvas id="lineChart"></canvas>
                     </div>
                     <div class="chart-container">
-                        <h2>Bar Chart</h2>
+                        <h2>Products per Category</h2>
                         <canvas id="barChart"></canvas>
-                    </div>
+                    </div>              
                 </div>
             </div>
-
-        <!-- Table Section -->
-<div class="table-section">
-    <h2><i class="fas fa-table"></i> Recent Orders</h2>
-    <table>
-        <thead>
-            <tr>
-                <th><i class="fas fa-hashtag"></i> Order ID</th>
-                <th><i class="fas fa-user"></i> Customer</th>
-                <th><i class="fas fa-box"></i> Product</th> <!-- New Product Column -->
-                <th><i class="fas fa-calendar"></i> Date</th>
-                <th><i class="fas fa-dollar-sign"></i> Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>#001</td>
-                <td>John Doe</td>
-                <td>Product A</td> <!-- Product for Order #001 -->
-                <td>2023-10-01</td>
-                <td>$100.00</td>
-            </tr>
-            <tr>
-                <td>#002</td>
-                <td>Jane Smith</td>
-                <td>Product B</td> <!-- Product for Order #002 -->
-                <td>2023-09-30</td>
-                <td>$200.00</td>
-            </tr>
-            <tr>
-                <td>#003</td>
-                <td>Michael Brown</td>
-                <td>Product C</td> <!-- Product for Order #003 -->
-                <td>2023-09-29</td>
-                <td>$150.00</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
         </div>
     </div>
 
     <script>
-        // Line Chart
         const lineChartCtx = document.getElementById('lineChart').getContext('2d');
         const lineChart = new Chart(lineChartCtx, {
             type: 'line',
@@ -146,7 +105,6 @@
             }
         });
 
-        // Bar Chart
         const barChartCtx = document.getElementById('barChart').getContext('2d');
         const barChart = new Chart(barChartCtx, {
             type: 'bar',

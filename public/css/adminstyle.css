@@ -1,4 +1,3 @@
-/* General Styles */
 * {
   margin: 0;
   padding: 0;
@@ -25,10 +24,9 @@ canvas {
   height: 300px;
 }
 
-/* Sidebar container styling */
 .sidebar {
   height: 100%;
-  width: 250px; /* Fixed width for better control */
+  width: 250px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -81,7 +79,7 @@ canvas {
 }
 
 .sidebar ul li a i {
-  font-size: 20px; /* Adjust icon size */
+  font-size: 20px;
   margin-right: 10px;
 }
 
@@ -108,9 +106,8 @@ canvas {
   }
 }
 
-/* Main Content */
 .main-content {
-  margin-left: 250px; /* Matches sidebar width */
+  margin-left: 250px;
   padding: 20px;
   font-size: 20px;
   transition: margin-left 0.5s ease;
@@ -138,7 +135,6 @@ canvas {
   color: #b0d9a4;
 }
 
-/* Cards Section */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -177,7 +173,6 @@ canvas {
   color: #b0d9a4;
 }
 
-/* Table Section */
 .table-section {
   margin-top: 40px;
 }
@@ -229,7 +224,6 @@ table tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* Order Page Specific Styles */
 .search-container {
   width: 23%;
   margin-left: auto;
@@ -267,7 +261,6 @@ table tbody tr:last-child td {
   background-color: #ccc;
 }
 
-/* Chart Section */
 .chart-section {
   margin-top: 40px;
 }
@@ -290,7 +283,6 @@ table tbody tr:last-child td {
   margin-bottom: 10px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
       width: 200px;

@@ -103,16 +103,12 @@ exports.getProducts = async (req, res) => {
 exports.addProduct = async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
-            console.error('File upload error:', err); // Log the actual error
+            console.error('File upload error:', err);
             return res.status(400).json({ error: 'Error uploading file' });
         }
 
         const { prodname, description, price, cat_id } = req.body;
         const fileName = req.file ? req.file.filename : null;
-
-        // Debugging logs
-        console.log('Form Data:', req.body); 
-        console.log('Uploaded File:', req.file);
 
         try {
             // Validate input fields
@@ -125,18 +121,31 @@ exports.addProduct = async (req, res) => {
                 return res.status(400).json({ error: 'Price must be a valid number.' });
             }
 
-            // Insert product into the database
+            // Insert product into the database and get the last inserted ID
             const query = 'INSERT INTO products (prodname, description, price, image, cat_id) VALUES (?, ?, ?, ?, ?)';
-            await db.query(query, [prodname, description, decimalPrice.toFixed(2), fileName, cat_id]);
+            const result = await db.query(query, [prodname, description, decimalPrice.toFixed(2), fileName, cat_id]);
 
-            console.log('Uploaded File Name:', fileName);
-            res.status(201).json({ message: 'Product added successfully' });
+            // Get the last inserted product ID
+            const lastInsertedId = result.insertId;
+
+            // Create new product object for response
+            const newProduct = {
+                prodname,
+                description,
+                price: decimalPrice.toFixed(2),
+                image: fileName,
+                cat_id,
+                prod_id: lastInsertedId // Use the last inserted ID here
+            };
+
+            res.status(201).json({ message: 'Product added successfully', product: newProduct });
         } catch (error) {
             console.error('Error adding product:', error);
             res.status(500).json({ error: 'Failed to add product. Please try again later.' });
         }
     });
 };
+
 
 // View Product and Redirect
 exports.viewProduct = async (req, res) => {
@@ -231,3 +240,92 @@ exports.getOrders = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch orders. Please try again later.' });
     }
 };
+
+   // Function to retrieve all users
+ exports.getUsers = async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT user_id, name, username, email, role FROM users');
+        res.render('admin/customer', { users: rows });
+    } catch (error) {
+        console.error('Error retrieving users:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+// Function to retrieve dashboard data (total users and total products)
+exports.getDashboardData = async (req, res) => {
+    try {
+        // Query to get the total number of users
+        const [userRows] = await db.query('SELECT COUNT(user_id) AS totalUsers FROM users');
+        const totalUsers = userRows[0].totalUsers;
+
+        // Query to get the total number of products
+        const [productRows] = await db.query('SELECT COUNT(*) AS total FROM products');
+        const totalProducts = productRows[0].total;
+
+        // Render the dashboard with both totalUsers and totalProducts
+        res.render('admin/dashboard', { totalUsers, totalProducts });
+    } catch (error) {
+        console.error('Error retrieving dashboard data:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+// Get all categories
+exports.getCategories = async (req, res) => {
+    try {
+        // Use the promise-based pool to query the database
+        const [categories] = await db.query('SELECT * FROM categories'); // Replace 'categories' with your table name
+        res.render('admin/category', {
+            categories: categories
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+};
+
+// Add a new category
+exports.addCategory = async (req, res) => {
+    const { catname } = req.body;
+    if (!catname) {
+        return res.status(400).send('Category name is required');
+    }
+    try {
+        // Use the promise-based pool to insert a new category
+        await db.query('INSERT INTO categories (catname) VALUES (?)', [catname]);  // Adjust table and column name as needed
+        res.redirect('/admin/category');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+};
+
+// Delete a category by ID
+exports.deleteCategory = async (req, res) => {
+    const { id } = req.params; // Extracting the ID from request parameters
+
+    try {
+        // Delete the category from the database
+        await db.query('DELETE FROM categories WHERE cat_id = ?', [id]); // Adjust the table and column name as needed
+        res.redirect('/admin/category'); // Redirect back to category management page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+};
+
+// Updated getProducts method in adminController.js
+exports.getProducts = async (req, res) => {
+    try {
+        const [products] = await db.query('SELECT * FROM products');
+        const [categories] = await db.query('SELECT cat_id, catname FROM categories'); // Fetch categories
+
+        // Pass products and categories to the view
+        res.render('admin/products', { products, categories });
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ error: 'Failed to fetch products. Please try again later.' });
+    }
+};
+
