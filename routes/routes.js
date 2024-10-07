@@ -5,55 +5,106 @@ const adminController = require('../Controller/adminController');
 const userController = require('../Controller/userController');
 const customerController = require('../Controller/customerController');
 
-// Public routes (Handled by mejicoController)
+const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.status(401).json({ error: 'User not logged in.' });
+    }
+};
+
 router.get('/', (req, res) => {
-    // Pass the user session data to the EJS template
     return res.render('home', {
-        user: req.session.user // Pass the user object if logged in
+        user: req.session.user 
     });
 });
-router.get('/about', mejicoController.about);
-router.get('/contact', mejicoController.contact);
-router.get('/testimonial', mejicoController.testimonial);
-router.get('/feature', mejicoController.feature);
-router.get('/product', mejicoController.product);
-router.get('/howtouse', mejicoController.howtouse);
-router.get('/blog', mejicoController.blog);
-router.get('/notFound', mejicoController.notFound);
+
+router.get('/about', (req, res) => {
+    return res.render('about', {
+        user: req.session.user 
+    });
+});
+
+router.get('/contact', (req, res) => {
+    return res.render('contact', {
+        user: req.session.user 
+    });
+});
+
+router.get('/testimonial', (req, res) => {
+    return res.render('testimonial', {
+        user: req.session.user 
+    });
+});
+
+router.get('/feature', (req, res) => {
+    return res.render('feature', {
+        user: req.session.user 
+    });
+});
+
+router.get('/product', (req, res) => {
+    return res.render('product', {
+        user: req.session.user 
+    });
+});
+
+router.get('/howtouse', (req, res) => {
+    return res.render('howtouse', {
+        user: req.session.user 
+    });
+});
+
+router.get('/blog', (req, res) => {
+    return res.render('blog', {
+        user: req.session.user 
+    });
+});
+
+router.get('/notFound', (req, res) => {
+    return res.render('notFound', {
+        user: req.session.user 
+    });
+});
+
+// Logout route
 router.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
-            return res.redirect('/'); // Redirect to home on error
+            return res.redirect('/'); 
         }
-        res.clearCookie('connect.sid'); // Clear the cookie
-        res.redirect('/'); // Redirect to home page after logout
+        res.redirect('/?message=loggedout'); 
     });
 });
 
-// User routes (Handled by userController)
 router.get('/login', userController.login);
-router.get('/register', userController.register);  // Register route
-router.post('/login', userController.handleLogin);
+router.get('/register', userController.register); 
 router.post('/register', userController.handleRegister);
 
-// Customer routes (Handled by customerController)
-router.get('/customer/products', customerController.getAllProducts);  // Get all products for customers
-router.get('/customer/products/:prod_id', customerController.getProduct);  // Get a single product by ID
+router.use('/customers/cart', isAuthenticated);
+router.use('/customers/checkout', isAuthenticated);
 
-// Cart operations for customers
-router.post('/customer/cart', customerController.addToCart);          // Add product to cart
-router.get('/customer/cart', customerController.getCart);             // Get the cart for the current user
-router.delete('/customer/cart/:cart_id', customerController.removeFromCart); // Remove a specific item from the cart
-router.delete('/customer/cart', customerController.clearCart);        // Clear the entire cart
+router.get('/customers/products', customerController.getProducts); 
+router.post('/customers/cart/:prod_id', customerController.addToCart); 
+router.get('/customers/cart', customerController.viewCart); 
+router.post('/customers/checkout', customerController.checkout); 
+router.use('/admin', isAuthenticated);
 
-// Order submission for customers
-router.post('/customer/order', customerController.submitOrder);       // Submit an order
+router.route('/admin/products')
+    .get(adminController.getProducts) 
+    .post(adminController.addProduct); 
 
-// Admin routes (Handled by adminController)
-router.get('/admin/dashboard', adminController.getDashboardData); // Get dashboard data
-router.get('/admin/products', adminController.getProducts); // Get all products
-router.post('/admin/products', adminController.addProduct); // Add a new product
-router.delete('/admin/products/:prod_id', adminController.deleteProduct); // Delete a product
-router.get('/admin/orders', adminController.getOrders); // Get all orders
+router.route('/admin/products/:prod_id')
+    .get(adminController.viewProduct) 
+    .delete(adminController.deleteProduct) 
+    .post(adminController.editProduct); 
+
+router.get('/admin/orders', adminController.getOrders); 
+router.get('/admin/dashboard', adminController.getDashboardData); 
+
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
 
 module.exports = router;

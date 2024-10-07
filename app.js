@@ -1,33 +1,39 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const routes = require('./routes/routes'); // Import the routes
+const routes = require('./routes/routes');
 const app = express();
 const path = require('path');
 
 app.use(session({
-  secret: 'your_secret_key_here',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using https
+    secret: 'your_secret_key_here',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false, 
+        maxAge: 1000 * 60 * 60 * 24, 
+    },
 }));
 
-// Set up EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.use((req, res, next) => {
+    if (req.session.user) {
+        res.locals.user = req.session.user; 
+    }
+    next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from the 'public' directory
 app.use(express.static('public'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Use routes
-app.use('/', routes); // All routes handled in the routes file
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
+app.use('/', routes); 
 
-// Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });

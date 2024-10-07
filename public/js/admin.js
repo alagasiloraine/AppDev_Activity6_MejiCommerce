@@ -212,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.categories.forEach(category => {
                     categoryList += `
                         <tr>
-                            <td>${category.id}</td>
-                            <td>${category.name}</td>
+                            <td>${category.cat_id}</td>
+                            <td>${category.catname}</td>
                             <td>
                                 <button class="btn btn-sm btn-warning">Edit</button>
                                 <button class="btn btn-sm btn-danger">Delete</button>
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addCategoryForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-        fetch('/api/categories', {
+        fetch('/category', {
             method: 'POST',
             body: formData
         })

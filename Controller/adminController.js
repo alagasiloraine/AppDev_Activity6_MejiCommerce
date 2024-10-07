@@ -1,31 +1,26 @@
-const db = require('../config/db'); // Assuming you have a MySQL database connection setup
+const db = require('../config/db');
 const multer = require('multer');
 const path = require('path');
 
-exports.getDashboardData = async (req, res) => {
-    // Check if the user is authenticated
+const getDashboardData = async (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/login'); // Redirect if not logged in
+        return res.redirect('/login');
     }
 
     try {
-        // Fetch the necessary data using promises
         const [productCount] = await db.query('SELECT COUNT(*) AS totalProducts FROM products');
         const [categories] = await db.query('SELECT * FROM categories');
         const [orderData] = await db.query('SELECT COUNT(*) AS monthlyOrders, SUM(total_amount) AS monthlyRevenue FROM orders WHERE MONTH(created_at) = MONTH(CURRENT_DATE())');
         const [userCount] = await db.query('SELECT COUNT(*) AS totalUsers FROM users');
 
-        // Calculate previous month handling
-        const currentMonth = new Date().getMonth() + 1; // Months are zero-indexed
+        const currentMonth = new Date().getMonth() + 1;
         const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
 
-        // Fetch additional data for "change from last month"
         const [productChange] = await db.query('SELECT COUNT(*) AS productChange FROM products WHERE MONTH(created_at) = ?', [previousMonth]);
         const [orderChange] = await db.query('SELECT COUNT(*) AS orderChange FROM orders WHERE MONTH(created_at) = ?', [previousMonth]);
         const [revenueChange] = await db.query('SELECT SUM(total_amount) AS revenueChange FROM orders WHERE MONTH(created_at) = ?', [previousMonth]);
         const [userChange] = await db.query('SELECT COUNT(*) AS userChange FROM users WHERE MONTH(created_at) = ?', [previousMonth]);
 
-        // Get monthly sales data (for the chart)
         const [monthlySales] = await db.query(`
             SELECT MONTH(created_at) AS month, SUM(total_amount) AS total 
             FROM orders 
@@ -33,15 +28,14 @@ exports.getDashboardData = async (req, res) => {
             GROUP BY MONTH(created_at)
         `);
 
-        // Get recent orders
         const [recentOrders] = await db.query(`
             SELECT order_id, user_id, total_amount FROM orders 
             ORDER BY created_at DESC LIMIT 5
         `);
 
-        // Render the dashboard view with data
         res.render('admin/dashboard', {
-            user: req.session.user, // Pass user info to the view
+            user: req.session.user,
+            categories,
             totalProducts: productCount[0].totalProducts,
             monthlyOrders: orderData[0].monthlyOrders,
             monthlyRevenue: orderData[0].monthlyRevenue,
@@ -55,101 +49,182 @@ exports.getDashboardData = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
-        res.status(500).json({ error: 'Failed to fetch dashboard data' });
+        res.status(500).json({ error: 'Failed to fetch dashboard data. Please try again later.' });
     }
 };
 
-exports.getCategories = async (req, res) => {
-    try {
-        const [categories] = await db.query('SELECT * FROM categories');
-        res.render('adminDashboard', { categories });
-    } catch (error) {
-        console.error('Error fetching categories:', error);
-        res.status(500).send('Server error');
-    }
-};
-
-// Configure multer for image upload
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/images/'); // Destination folder for uploaded images
+        const uploadDir = path.join(__dirname, '../uploads/images');
+        cb(null, uploadDir); // Set upload directory
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Save with unique filename
+        cb(null, Date.now() + path.extname(file.originalname)); 
     }
 });
+
 // File upload settings
 const upload = multer({
     storage: storage,
-    fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/;
-        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
-        const mimetype = fileTypes.test(file.mimetype);
-        if (extname && mimetype) {
-            return cb(null, true);
+    fileFilter: function (req, file, cb) {
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
         } else {
-            cb('Error: Images Only!');
+            cb(new Error('Only images are allowed!'), false);
         }
     }
-}).single('image'); // 'image' is the field name
+}).single('image');
+
 // Get all products
-exports.getProducts = async (req, res) => {
+const getProducts = async (req, res) => {
     try {
         const [products] = await db.query('SELECT * FROM products');
-        res.json(products);
+        res.render('admin/products', { products });
     } catch (error) {
         console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Failed to fetch products' });
+        res.status(500).json({ error: 'Failed to fetch products. Please try again later.' });
     }
 };
-//add products
-exports.addProduct = async (req, res) => {
+
+// Add products
+const addProduct = async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
-            return res.status(400).json({ error: err });
+            console.error('File upload error:', err); // Log the actual error
+            return res.status(400).json({ error: 'Error uploading file' });
         }
 
-        const { name, description, price, category_id } = req.body;
-        const imageUrl = req.file ? `/uploads/images/${req.file.filename}` : null;
+        const { prodname, description, price, cat_id } = req.body;
+        const fileName = req.file ? req.file.filename : null;
+
+        // Debugging logs
+        console.log('Form Data:', req.body); 
+        console.log('Uploaded File:', req.file);
 
         try {
-            if (!name || !description || !price || !category_id || !imageUrl) {
+            // Validate input fields
+            if (!prodname || !description || !price || !cat_id || !fileName) {
                 return res.status(400).json({ error: 'All fields are required' });
             }
 
-            await db.query('INSERT INTO products (prodname, description, price, image, cat_id) VALUES (?, ?, ?, ?, ?)', 
-                [name, description, price, imageUrl, category_id]);
+            const decimalPrice = parseFloat(price);
+            if (isNaN(decimalPrice)) {
+                return res.status(400).json({ error: 'Price must be a valid number.' });
+            }
 
+            // Insert product into the database
+            const query = 'INSERT INTO products (prodname, description, price, image, cat_id) VALUES (?, ?, ?, ?, ?)';
+            await db.query(query, [prodname, description, decimalPrice.toFixed(2), fileName, cat_id]);
+
+            console.log('Uploaded File Name:', fileName);
             res.status(201).json({ message: 'Product added successfully' });
         } catch (error) {
             console.error('Error adding product:', error);
-            res.status(500).json({ error: 'Failed to add product' });
+            res.status(500).json({ error: 'Failed to add product. Please try again later.' });
         }
     });
 };
 
-
-// Delete a product
-exports.deleteProduct = async (req, res) => {
-    const { id } = req.params;
-
+// View Product and Redirect
+const viewProduct = async (req, res) => {
+    const prod_id = req.params.prod_id;
     try {
-        await db.query('DELETE FROM products WHERE id = ?', [id]);
-        res.status(200).json({ message: 'Product deleted successfully' });
+        // Fetch product details from the database by ID
+        const [result] = await db.query('SELECT * FROM products WHERE prod_id = ?', [prod_id]);
+        
+        // If product not found, send 404 error response
+        if (result.length === 0) {
+            return res.status(404).send('Product not found.');
+        }
+
+        // Render the 'view-product' page and pass the product data
+        res.render('admin/view-product', { product: result[0] }); // Assuming result[0] contains the product data
+    } catch (err) {
+        console.error('Error fetching product:', err);
+        return res.status(500).send('Error fetching product.');
+    }
+};
+
+// Edit Product
+const editProduct = async (req, res) => {
+    console.log(req.body); // Log form data
+    console.log(req.file); // Log uploaded file info
+
+    upload(req, res, async (err) => {
+        if (err) {
+            return res.status(400).json({ error: err.message });
+        }
+
+        const { prod_id, prodname, description, price, cat_id } = req.body;
+        const fileName = req.file ? req.file.filename : null;
+
+        if (!prod_id || !prodname || !description || !price || !cat_id) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const decimalPrice = parseFloat(price);
+        if (isNaN(decimalPrice)) {
+            return res.status(400).json({ error: 'Price must be a valid number.' });
+        }
+
+        try {
+            const query = fileName
+                ? 'UPDATE products SET prodname = ?, description = ?, price = ?, image = ?, cat_id = ? WHERE prod_id = ?'
+                : 'UPDATE products SET prodname = ?, description = ?, price = ?, cat_id = ? WHERE prod_id = ?';
+
+            const values = fileName
+                ? [prodname, description, decimalPrice.toFixed(2), fileName, cat_id, prod_id]
+                : [prodname, description, decimalPrice.toFixed(2), cat_id, prod_id];
+
+            await db.query(query, values);
+
+            res.status(200).json({ message: 'Product updated successfully' });
+        } catch (error) {
+            console.error('Error updating product:', error);
+            res.status(500).json({ error: 'Failed to update product. Please try again later.' });
+        }
+    });
+};
+
+const deleteProduct = async (req, res) => {
+    try {
+        const prod_id = req.params.prod_id;  // Get product ID from request parameters
+
+        // Use parameterized query to avoid SQL injection
+        const [result] = await db.query('DELETE FROM products WHERE prod_id = ?', [prod_id]);
+
+        if (result.affectedRows > 0) {
+            // Successfully deleted product
+            res.json({ success: true, message: 'Product deleted successfully' });
+        } else {
+            // No rows affected, product not found
+            res.status(404).json({ success: false, error: 'Product not found' });
+        }
     } catch (error) {
+        // Log and return an error response
         console.error('Error deleting product:', error);
-        res.status(500).json({ error: 'Failed to delete product' });
+        res.status(500).json({ success: false, error: 'Failed to delete product' });
     }
 };
 
 // Get all orders
-exports.getOrders = async (req, res) => {
+const getOrders = async (req, res) => {
     try {
         const [orders] = await db.query('SELECT orders.*, users.username AS user FROM orders JOIN users ON orders.user_id = users.user_id');
-        res.json(orders);
+        res.render('admin/order', { orders });
     } catch (error) {
         console.error('Error fetching orders:', error);
-        res.status(500).json({ error: 'Failed to fetch orders' });
+        res.status(500).json({ error: 'Failed to fetch orders. Please try again later.' });
     }
 };
 
+// Exporting functions
+module.exports = {
+    getDashboardData,
+    getProducts,
+    addProduct,
+    viewProduct,
+    editProduct,
+    deleteProduct,
+    getOrders
+};

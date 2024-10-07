@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>MEJICO MD Medical Spa</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <link href="img/favicon.ico" rel="icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Poppins:wght@200;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid sticky-top p-0">
+    <nav class="navbar navbar-expand-lg navbar-light p-0">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand">
+          <h3 class="text-white">
+            <i class="fas fa-spa"></i> MEJICO MD Medical Spa
+          </h3>
+        </a>
+        <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto">
+            <a href="/" class="nav-item nav-link">Home</a>
+            <a href="/about" class="nav-item nav-link">About</a>
+            <a href="/product" class="nav-item nav-link">Products</a>
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Menus</a>
+              <div class="dropdown-menu bg-light mt-2">
+                <a href="/feature" class="dropdown-item">Features</a>
+                <a href="/howtouse" class="dropdown-item active">How To Use</a>
+                <a href="/testimonial" class="dropdown-item">Testimonial</a>
+                <a href="/blog" class="dropdown-item">Blog Articles</a>
+              </div>
+            </div>
+            <a href="/contact" class="nav-item nav-link">Contact</a>
+          </div>
+          <% if (user) { %>
+          <span class="navbar-text text-white me-3">Welcome, <%= user.username %>!</span>
+          <a href="/logout" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Logout</a>
+          <% } else { %>
+          <a href="/register" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Register</a>
+          <a href="/login" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Login</a>
+          <% } %>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container-fluid bg-primary hero-header mb-5">
+    <div class="container text-center">
+      <h1 class="display-4 text-white mb-3">How To Use</h1>
+    </div>
+  </div>
+
+  <div class="container-fluid how-to-use my-5 py-5">
+    <div class="container text-white py-5">
+      <div class="mx-auto text-center">
+        <h1 class="text-dark mb-3"><span class="fw-light text-dark">How To Use Our</span> Natural & Organic
+          <span class="fw-light text-dark">Spa Products</span>
+        </h1>
+        <p class="mb-5 text-dark">This product is designed to rejuvenate and nourish your skin. Follow these steps for optimal results:</p>
+      </div>
+      <div class="row g-5">
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-hand-paper fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Dispense Product</h5>
+          <hr class="w-25 text-dark bg-dark my-2 mx-auto">
+          <span class="text-dark">Take a small amount of the product in your hands.</span>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-fire-alt fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Warm It Up</h5>
+          <hr class="w-25 text-dark bg-dark my-2 mx-auto">
+          <span class="text-dark">Rub your hands together to warm the product slightly.</span>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-spa fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Apply Evenly</h5>
+          <hr class="w-25 bg-dark text-dark my-2 mx-auto">
+          <span class="text-dark">Apply the product evenly onto your skin or hair, depending on the type of product.</span>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-hand-holding-heart fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Massage Gently</h5>
+          <hr class="w-25 bg-dark text-dark my-2 mx-auto">
+          <span class="text-dark">Use gentle circular motions to massage the product in, allowing it to absorb fully.</span>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-clock fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Let It Absorb</h5>
+          <hr class="w-25 bg-dark text-dark my-2 mx-auto">
+          <span class="text-dark">Allow the product to absorb fully into your skin or hair.</span>
+        </div>
+        <div class="col-lg-4 text-center">
+          <div class="btn-square rounded-circle border mx-auto mb-4" style="width: 120px; height: 120px;">
+            <i class="fa fa-smile fa-3x text-dark"></i>
+          </div>
+          <h5 class="text-dark">Enjoy the Benefits</h5>
+          <hr class="w-25 bg-dark my-2 mx-auto">
+          <span class="text-dark">Enjoy the soothing sensation and let the product work its magic, providing you with the desired results!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid bg-white footer">
+    <div class="container py-5">
+      <div class="row g-5">
+        <div class="col-md-6">
+          <a href="/" class="d-inline-block mb-3">
+            <h1 class="text-primary">MEJICO MD Medical Spa</h1>
+          </a>
+          <p class="mb-0"> Blending medical innovation with spa luxury, our team is dedicated to helping you look and feel your best. Experience the perfect balance of health and beauty. </p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="mb-4">Get In Touch</h5>
+          <p><i class="fa fa-map-marker-alt me-3"></i>San Vicente West, Calapan City</p>
+          <p><i class="fa fa-phone-alt me-3"></i>0933 869 7119</p>
+          <p><i class="fa fa-envelope me-3"></i>mejicomdmedicalspa@gmail.com</p>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="copyright">
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            &copy; <a class="border-bottom" href="#">MEJICO MD</a>, All Right Reserved.
+
+            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <div class="footer-menu">
+              <a href="">Home</a>
+              <a href="">Cookies</a>
+              <a href="">Help</a>
+              <a href="">FAQs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/lib/wow/wow.min.js"></script>
+  <script src="/lib/easing/easing.min.js"></script>
+  <script src="/lib/waypoints/waypoints.min.js"></script>
+  <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+  <script src="/js/main.js"></script>
+</body>
+
+</html>
