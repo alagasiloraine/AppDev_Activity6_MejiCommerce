@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+  <link rel="stylesheet" href="/css/adminstyle.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style> 
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.875rem;
+      width: 100%; 
+      table-layout: fixed;
+    }
+
+    .table-container {
+      margin-left: 2px;
+      overflow-x: auto; 
+    }
+
+    .table th, .table td {
+      border: 1px solid #dee2e6;
+      text-align: left;
+      padding: 8px;
+      word-wrap: break-word; 
+    }
+
+    .table th:nth-child(1),
+    .table td:nth-child(1) {
+      width: 15%;
+    }
+
+    .table th:nth-child(2),
+    .table td:nth-child(2) {
+      width: 30%;
+    }
+
+    .table th:nth-child(3),
+    .table td:nth-child(3) {
+      width: 20%;
+    }
+
+    .table th:nth-child(4),
+    .table td:nth-child(4) {
+      width: 10%;
+    }
+
+    .table th:nth-child(5),
+    .table td:nth-child(5) {
+      width: 10%;
+    }
+
+    .table th:nth-child(6),
+    .table td:nth-child(6) {
+      width: 15%;
+    }
+
+    .table thead th {
+      background-color: #d1e7dd;
+      border-bottom: 2px solid #198754;
+    }
+
+    .product-image {
+      max-width: 120px;
+      max-height: 120px;
+      object-fit: cover;
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+  
+    .btn-add-product {
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+  
+    .btn-green {
+      background-color: green;
+      border-color: green;
+      color: white;
+    }
+  
+    .btn-green:hover {
+      background-color: darkgreen;
+      border-color: darkgreen;
+    }
+  
+    .action-buttons-container {
+      display: flex; 
+      align-items: center;
+    }
+  
+    .action-btn {
+      font-size: 0.75rem;
+      padding: 5px;
+      width: 30px;
+      height: 30px; 
+      margin: 2px;
+      display: flex; 
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 5px; 
+      transition: background-color 0.3s;
+    }
+  
+    .action-btn.btn-warning {
+      background-color: #ffc107; 
+      color: white; 
+    }
+  
+    .action-btn.btn-warning:hover {
+      background-color: #e0a800;
+    }
+  
+    .action-btn.btn-info {
+      background-color: #17a2b8; 
+      color: white;
+    }
+  
+    .action-btn.btn-info:hover {
+      background-color: #138496; 
+    }
+  
+    .action-btn.btn-danger {
+      background-color: #dc3545; 
+      color: white; 
+    }
+  
+    .action-btn.btn-danger:hover {
+      background-color: #c82333; 
+    }
+  </style>  
+</head>
+
+<body>
+  <div class="d-flex">
+    <div class="sidebar">
+      <div class="logo">
+        <img src="/img/mejicoMD-logo.png" alt="Mejico MD Medical Spa Logo" class="logo-img" />
+        <h2 class="logo-text">Mejico MD Medical Spa</h2>
+      </div>
+
+      <ul>
+        <li>
+          <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+        </li>
+        <li>
+          <a href="/admin/products"><i class="fa-solid fa-cart-shopping"></i>
+            <span>Products</span></a>
+        </li>
+        <li>
+          <a href="/admin/category"><i class="fa-solid fa-list"></i>
+            <span>Category</span></a>
+        </li>        
+        <li>
+          <a href="/admin/orders"><i class="fas fa-box"></i> <span>Orders</span></a>
+        </li>
+        <li>
+          <a href="/admin/customers"><i class="fas fa-users"></i> <span>Customers</span></a>
+        </li>
+        <li>
+          <a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="header">
+        <h1><i class="fa-solid fa-cart-shopping"></i> Products</h1>
+      </div>
+
+      <button class="btn btn-green btn-add-product" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <i class="fas fa-plus"></i> Add Product
+      </button>
+
+      <% if (!products || products.length === 0) { %>
+      <p>No products available or failed to load.</p>
+      <% } else { %>
+
+      <div class="table-container">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(product => { %>
+            <tr>
+              <td><%= product.prodname %></td>
+              <td><%= product.description %></td>
+              <td>
+                <img src="/uploads/images/<%= product.image %>" alt="<%= product.prodname %>" class="product-image rounded" />
+              </td>
+              <td>$<%= product.price %></td>
+              <td><%= product.cat_id %></td>
+              <td>
+                <div class="action-buttons-container">
+                  <a href="#" class="btn btn-warning action-btn btn-edit-product" data-prod-id="<%= product.prod_id %>" data-prodname="<%= product.prodname %>" data-description="<%= product.description %>" data-price="<%= product.price %>" data-cat-id="<%= product.cat_id %>" data-image="<%= product.image %>">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a href="#" class="btn btn-info action-btn btn-view-product" data-prod-id="<%= product.prod_id %>" data-prodname="<%= product.prodname %>" data-description="<%= product.description %>" data-price="<%= product.price %>" data-cat-id="<%= product.cat_id %>" data-image="<%= product.image %>">
+                    <i class="fas fa-eye"></i>
+                  </a>                  
+                  <a href="#" class="btn btn-danger action-btn" onclick="deleteProduct('<%= product.prod_id %>'); return false;">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
+                </div>
+              </td>                      
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <% } %>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/products" id="addProductForm" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="prodname" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="prodname" name="prodname" required />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="price" name="price" required />
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-control" id="category" name="cat_id" required>
+                  <option value="">Select a category</option>
+                  <% categories.forEach(category => { %>
+                      <option value="<%= category.cat_id %>"><%= category.catname %></option>
+                  <% }) %>
+              </select>
+            </div>                   
+            <div class="mb-3">
+              <label for="image" class="form-label">Product Image</label>
+              <input type="file" class="form-control" id="image" name="image" required />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="viewProductModal" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewProductModalLabel">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4 id="view_prodname"></h4>
+          <p id="view_description"></p>
+          <p><strong>Price: </strong>$<span id="view_price"></span></p>
+          <p><strong>Category: </strong><span id="view_category"></span></p>
+          <img id="view_image" class="product-image rounded" src="" alt="Product Image" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editProduct" method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="edit_prod_id" name="prod_id" />
+            <div class="mb-3">
+              <label for="edit_prodname" class="form-label">Product Name</label>
+              <input type="text" class="form-control" id="edit_prodname" name="prodname" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit_description" class="form-label">Description</label>
+              <textarea class="form-control" id="edit_description" name="description" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit_price" class="form-label">Price</label>
+              <input type="number" class="form-control" id="edit_price" name="price" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit_category" class="form-label">Category</label>
+              <select class="form-control" id="edit_category" name="cat_id" required>
+                  <option value="">Select a category</option>
+                  <% categories.forEach(category => { %>
+                      <option value="<%= category.cat_id %>"><%= category.catname %></option>
+                  <% }) %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="edit_image" class="form-label">Upload New Product Image (optional)</label>
+              <input type="file" class="form-control" id="edit_image" name="image" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="/js/product.js"></script>
+</body>
+
+</html>
