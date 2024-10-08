@@ -1,4 +1,3 @@
-    /*** Button ***/
     .btn {
         font-weight: 500;
         transition: .5s;
@@ -34,7 +33,6 @@
         border-radius: 50px;
     }
 
-/*** Navbar ***/
 .sticky-top {
     width: 100%;
     background-color: #b0d9a4;
@@ -56,7 +54,7 @@
 }
 
 .navbar .navbar-nav .nav-link {
-    margin-right: 20px; /* Reduced from 45px */
+    margin-right: 20px;
     padding: 0;
     color: #2a3e0e;
     font-weight: 500;
@@ -113,7 +111,6 @@
     }
 }
 
-    /*** Hero Header ***/
     .hero-header {
         position: relative;
         margin-top: -85px;
@@ -144,7 +141,6 @@
         color: var(--bs-light);
     }
 
-    /* Button styles for Login */
     .login-btn {
         background-color: #b0d9a4; 
         border: 1px solid #9bb989; 
@@ -156,7 +152,6 @@
         color: #fff; 
     }
 
-    /* Button styles for Register */
     .register-btn {
         background-color: #b0d9a4; 
         border: 1px solid #9bb989;
@@ -168,8 +163,6 @@
         color: #fff; 
     }
 
-
-    /*** Feature ***/
     .feature-item::before {
         position: absolute;
         content: "";
@@ -187,8 +180,6 @@
         z-index: 1;
     }
 
-
-    /*** Deal ***/
     .deal {
         position: relative;
         background: linear-gradient(to right, #b0d9a4 50%, #b0d9a4 50%), 
@@ -220,8 +211,6 @@
         text-transform: capitalize;
     }
 
-
-    /*** How To Use ***/
     .how-to-use {
         position: relative;
     }
@@ -255,8 +244,6 @@
         background: var(--bs-primary);
     }
 
-
-    /*** Testimonial ***/
     .testimonial {
         position: relative;
         background: linear-gradient(to right, #78ab69 50%, #78ab69 50%), 
@@ -314,8 +301,6 @@
         background: var(--bs-dark);
     }
 
-
-    /*** Blog ***/
     .blog-item {
         transition: .1s;
     }
@@ -330,8 +315,6 @@
         background: var(--bs-primary);
     }
 
-
-    /*** Contact ***/
     .contact-info-item::before {
         position: absolute;
         content: "";
@@ -350,7 +333,6 @@
         z-index: 1;
     }
 
-    /*** Footer ***/
     .footer .btn.btn-link {
         display: block;
         margin-bottom: 10px;

@@ -16,7 +16,6 @@ async function fetchDashboardData() {
         document.getElementById('monthlyRevenue').textContent = `$${data.monthlyRevenue.toFixed(2)}`;
         document.getElementById('totalUsers').textContent = data.totalUsers;
 
-        // Update change percentages (assuming you have this data)
         document.getElementById('productChange').textContent = `${data.productChange}% from last month`;
         document.getElementById('orderChange').textContent = `${data.orderChange}% from last month`;
         document.getElementById('revenueChange').textContent = `${data.revenueChange}% from last month`;
@@ -139,7 +138,6 @@ async function addProduct(event) {
 }
 
 function editProduct(id) {
-    // Implement edit product functionality
     console.log('Edit product:', id);
 }
 
@@ -164,16 +162,13 @@ async function deleteProduct(id) {
 }
 
 function viewOrder(id) {
-    // Implement view order functionality
     console.log('View order:', id);
 }
 
 function updateOrderStatus(id) {
-    // Implement update order status functionality
     console.log('Update order status:', id);
 }
 
-// Initialize Bootstrap components
 const addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
 document.getElementById('addProductBtn').addEventListener('click', () => {
     addProductModal.show();
@@ -192,7 +187,6 @@ document.getElementById('addProductForm').addEventListener('submit', async (e) =
         if (response.ok) {
             const result = await response.json();
             alert(result.message);
-            // Reload the product list or update UI accordingly
         } else {
             const error = await response.json();
             alert('Error: ' + error.error);
@@ -203,7 +197,6 @@ document.getElementById('addProductForm').addEventListener('submit', async (e) =
     }
 });
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch and display categories
     function loadCategories() {
         fetch('/api/categories')
             .then(response => response.json())
@@ -226,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadCategories();
 
-    // Add new category
     document.getElementById('addCategoryForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
@@ -237,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                loadCategories(); // Reload categories
-                document.getElementById('addCategoryModal').modal('hide'); // Hide modal
+                loadCategories();
+                document.getElementById('addCategoryModal').modal('hide');
             }
         });
     });

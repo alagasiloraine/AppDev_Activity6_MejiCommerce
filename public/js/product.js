@@ -125,21 +125,17 @@ document.querySelectorAll('.edit-product-btn').forEach(button => {
   button.addEventListener('click', function () {
     const prodId = this.dataset.prodId;
 
-    // Fetch product details from the server using AJAX
     fetch(`/product/${prodId}/edit`)
       .then(response => response.json())
       .then(data => {
-        // Populate the modal fields
         document.getElementById('edit_prod_id').value = data.prod_id;
         document.getElementById('edit_prodname').value = data.prodname;
         document.getElementById('edit_description').value = data.description;
         document.getElementById('edit_price').value = data.price;
 
-        // Set the selected category
         const categorySelect = document.getElementById('edit_category');
         categorySelect.value = data.cat_id;
 
-        // Set the current image
         const imagePreview = document.getElementById('current_image_preview');
         if (data.image) {
           imagePreview.src = `/uploads/images/${data.image}`;
@@ -148,7 +144,6 @@ document.querySelectorAll('.edit-product-btn').forEach(button => {
           imagePreview.alt = 'No image available';
         }
 
-        // Show the modal
         const editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
         editProductModal.show();
       })

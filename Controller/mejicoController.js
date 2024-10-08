@@ -1,13 +1,10 @@
 const mejicoController = {
     home: (req, res) => {
-        // Check if the user is logged in via session
         if (req.session && req.session.user) {
-            // Render the home page with user's name
             return res.render('home', {
                 name: req.session.user,
             });
         } else {
-            // Render the home page without user data
             return res.render('home');
         }
     },
@@ -18,6 +15,9 @@ const mejicoController = {
     product: (req, res) => res.render('product'),
     howtouse: (req, res) => res.render('howtouse'),
     blog: (req, res) => res.render('blog'),
+    blog1: (req, res) => res.render('blog1'),
+    blog2: (req, res) => res.render('blog2'),
+    blog3: (req, res) => res.render('blog3'),
     notFound: (req, res) => res.render('notFound')
 };
 

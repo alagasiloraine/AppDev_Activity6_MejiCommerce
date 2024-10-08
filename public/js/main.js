@@ -1,11 +1,8 @@
 (function ($) {
     "use strict";
-    
-    // Initiate the wowjs
+
     new WOW().init();
 
-
-    // Sticky Navbar
     $(window).scroll(function () {
         if ($(this).scrollTop() > 300) {
             $('.sticky-top').addClass('bg-primary shadow-sm').css('top', '0px');
@@ -13,9 +10,7 @@
             $('.sticky-top').removeClass('bg-primary shadow-sm').css('top', '-150px');
         }
     });
-    
-    
-    // Back to top button
+
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
             $('.back-to-top').fadeIn('slow');
@@ -28,8 +23,6 @@
         return false;
     });
 
-
-    // Countdown Timer
     function countDownTimer() {	
         var endTime = new Date("31 December 2023 10:00:00 GMT+00:00");
         endTime = (Date.parse(endTime) / 1000);
@@ -68,8 +61,6 @@
         countDownTimer();
     }, 1000);
 
-
-    // Testimonials carousel
     $('.testimonial-carousel').owlCarousel({
         autoplay: true,
         smartSpeed: 1000,

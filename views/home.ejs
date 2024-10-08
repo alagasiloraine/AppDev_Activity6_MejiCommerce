@@ -57,18 +57,18 @@
                         </div>
                         <a href="/contact" class="nav-item nav-link">Contact</a>
                     </div>
-                    <% if (user) { %>
-                        <span class="navbar-text text-white me-3">Welcome, <%= user.name %>!</span>
+                    <% if (user && user.username) { %>
+                        <span class="navbar-text text-dark me-3">Welcome, <%= user.username %>!</span>
                         <a href="/logout" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Logout</a>
                     <% } else { %>
                         <a href="/login" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Login</a>
                         <a href="/register" class="btn btn-dark py-2 px-4 d-none d-lg-inline-block">Register</a>
-                    <% } %>
+                    <% } %>                    
                 </div>
             </div>
         </nav>
-    </div> 
-    
+    </div>
+
     <div class="container-fluid bg-primary hero-header mb-5">
         <div class="container">
             <div class="row g-5 align-items-center">

@@ -19,8 +19,8 @@
                 <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="/admin/products"><i class="fa-solid fa-cart-shopping"></i> <span>Products</span></a></li>
                 <li><a href="/admin/category"><i class="fa-solid fa-list"></i><span>Category</span></a></li> 
-                <li><a href="/admin/orders"><i class="fas fa-box"></i> <span>Orders</span></a></li>
-                <li><a href="/admin/customers"><i class="fas fa-users"></i> <span>Customers</span></a></li>
+                <li><a href="/admin/order"><i class="fas fa-box"></i> <span>Orders</span></a></li>
+                <li><a href="/admin/customer"><i class="fas fa-users"></i> <span>Customers</span></a></li>
                 <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
             </ul>
         </div> 
@@ -28,7 +28,6 @@
         <div class="main-content">
             <div class="header">
                 <h1><i class="fas fa-cart-shopping"></i> Orders</h1>
-               
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Search by Customer or Product..." onkeyup="searchOrders()">
                 </div>
@@ -48,6 +47,22 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
+                        <% if (Array.isArray(orders) && orders.length > 0) { %>
+                            <% orders.forEach(order => { %>
+                                <tr>
+                                    <td><%= order.order_id %></td>
+                                    <td><%= order.name %></td>
+                                    <td><%= order.prodname %></td>
+                                    <td><%= Number(order.price).toFixed(2) %></td>
+                                    <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+                                    <td><%= order.status %></td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6">No orders found.</td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
                 <div class="pagination-order">
@@ -59,15 +74,9 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('Order Page Loaded');
-            filteredOrders = orders; 
-            displayTable(); 
-        });
-
         let currentPage = 1;
         const rowsPerPage = 5; 
-        let filteredOrders = [];
+        let filteredOrders = [...document.querySelectorAll('#tableBody tr')];
 
         function displayTable() {
             const tableBody = document.getElementById('tableBody');
@@ -76,17 +85,8 @@
             const endIndex = startIndex + rowsPerPage;
             const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
 
-            paginatedOrders.forEach(order => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${order.id}</td>
-                    <td>${order.customer}</td>
-                    <td>${order.product}</td>
-                    <td>${order.price}</td>
-                    <td>${order.date}</td>
-                    <td>${order.status}</td> 
-                `;
-                tableBody.appendChild(row);
+            paginatedOrders.forEach(orderRow => {
+                tableBody.appendChild(orderRow);
             });
 
             document.getElementById('prevBtn').disabled = currentPage === 1;
@@ -100,28 +100,15 @@
 
         function searchOrders() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            filteredOrders = orders.filter(order => {
-                return (
-                    order.customer.toLowerCase().includes(searchInput) ||
-                    order.product.toLowerCase().includes(searchInput)
-                );
+            filteredOrders = [...document.querySelectorAll('#tableBody tr')].filter(orderRow => {
+                const cells = orderRow.querySelectorAll('td');
+                const customerName = cells[1].textContent.toLowerCase();
+                const productName = cells[2].textContent.toLowerCase();
+                return customerName.includes(searchInput) || productName.includes(searchInput);
             });
             currentPage = 1; 
             displayTable();
         }
-
-        const orders = [
-            { id: 1, customer: 'John Doe', product: 'Product A', price: 25.99, date: '2023-10-01', status: 'Pending' },
-            { id: 2, customer: 'Jane Smith', product: 'Product B', price: 15.99, date: '2023-10-02', status: 'Completed' },
-            { id: 3, customer: 'Alice Johnson', product: 'Product C', price: 12.99, date: '2023-10-01', status: 'Pending' },
-            { id: 4, customer: 'Bob Brown', product: 'Product D', price: 29.99, date: '2023-10-02', status: 'Shipped' },
-            { id: 5, customer: 'Charlie Davis', product: 'Product E', price: 10.99, date: '2023-10-01', status: 'Completed' },
-            { id: 6, customer: 'Diana Miller', product: 'Product F', price: 22.99, date: '2023-10-02', status: 'Pending' },
-            { id: 7, customer: 'Ethan Wilson', product: 'Product G', price: 14.99, date: '2023-10-01', status: 'Completed' },
-            { id: 8, customer: 'Fiona Garcia', product: 'Product H', price: 30.99, date: '2023-10-02', status: 'Shipped' },
-            { id: 9, customer: 'George Martinez', product: 'Product I', price: 8.99, date: '2023-10-01', status: 'Pending' },
-            { id: 10, customer: 'Hannah Rodriguez', product: 'Product J', price: 18.99, date: '2023-10-02', status: 'Completed' },
-        ];
     </script>
 </body>
 </html>
